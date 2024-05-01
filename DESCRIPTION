@@ -1,0 +1,38 @@
+Package: spbal
+Type: Package
+Title: Implements a Number of Spatially Balanced Sampling Algorithms
+Version: 1.0.0
+Authors@R: c(
+    person("Phil", "Davies", email = "philip.davies@canterbury.ac.nz", role = c("aut", "cre")),
+    person("Blair", "Robertson", email = "blair.robertson@canterbury.ac.nz", role = c("aut")),
+    person("Paul", "van Dam-Bates", email = "paul.vandambates@gmail.com", role = c("aut")),
+    person("Oliver", "Gansell", email = "ogansell@doc.govt.nz", role = c("aut")))
+Maintainer: Phil Davies <philip.davies@canterbury.ac.nz>
+Description: A package to encapsulate a number of spatially balanced sampling algorithms, namely, 
+    BAS (equal, unequal, seed point, panels), Halton frames (for discretizing a 
+    continuous resource), HIP (equal probability) and Simple Random Sampling (SRS).
+    **** This is a work in progress and everything is subject to change without 
+    notice.
+Depends: R (>= 3.6.0)
+License: MIT + file LICENSE
+Encoding: UTF-8
+Imports:
+    units,
+    sf,
+    Rcpp
+LazyData: true
+SystemRequirements: C++17
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    bookdown,
+    ggplot2,
+    gridExtra
+VignetteBuilder: knitr
+LinkingTo:
+	Rcpp,
+	RcppThread
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Config/testthat/edition: 3
