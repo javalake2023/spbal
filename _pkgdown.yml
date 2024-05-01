@@ -1,0 +1,18 @@
+url: ~
+template:
+  bootstrap: 5
+reference:
+- title: spbal
+- subtitle: Spatial Functions
+  desc: User callable spatial design functions.
+- contents:
+  - starts_with("HIP")
+  - starts_with("BAS")
+  - starts_with("HaltonFrame")
+  - starts_with("cpp")
+  - starts_with("BoundingBox")
+- subtitle: Support Functions
+  desc: User callable support functions.
+- contents:
+  - starts_with("SRS")
+  - starts_with("get")
