@@ -150,7 +150,7 @@ BAS20 <- result$sample
 ```
 
 ```{r }
-BAS20[1:3,]
+BAS20
 ```
 
 The site locations are illustrated below:
@@ -196,7 +196,7 @@ result2 <- spbal::BAS(shapefile = shp_gates,
                       boundingbox = bb,
                       seeds = result$seed)
 BAS50 <- result2$sample
-BAS50[1:3,]
+BAS50
 
 # Check, first n_samples points in both samples must be the same.
 all.equal(BAS20$geometry, BAS50$geometry[1:20])
@@ -333,7 +333,7 @@ result4 <- spbal::BAS(shapefile = shp_subset,
                       stratum = "NAME")
 BASMaster <- result4$sample
 gates_samp2 <- BASMaster[BASMaster[["NAME"]] %in% "Gates",]
-gates_samp2[1:3,]
+gates_samp2
 ```
 
 The 20 sites in **gates_samp2** are identical to **gates_samp** because the same seed point was used.
@@ -400,7 +400,7 @@ The sites in panel 2 are obtained using the **getPanel()** function as follows.
 ```{r }
 panel_2 <- spbal::getPanel(BASpanel, 2)
 panel_2 <- panel_2$sample
-panel_2[1:3,]
+panel_2
 ```
 
 Plot the sample sites in each panel using ggplot.
@@ -603,7 +603,7 @@ n_samples <- 25
 FrameSample <-getSample(shapefile = Frame, 
                         n = n_samples)
 FrameSample <- FrameSample$sample
-FrameSample[1:3,c("x", "spbalSeqID")]
+FrameSample[1:10, c("x", "spbalSeqID")]
 ```
 
 Plot the sample and number the points in the frame's order (given by **spbalSeqID**) using ggplot.
@@ -644,7 +644,7 @@ FrameSample <-getSample(shapefile = Frame,
                         n = n_samples, 
                         randomStart = TRUE)
 FrameSample <- FrameSample$sample
-FrameSample[1:3,c("x", "spbalSeqID")]
+FrameSample[1:10, c("x", "spbalSeqID")]
 ```
 
 ### Halton frame overlapping panel design.
@@ -754,7 +754,7 @@ hertford_samp <- spbal::getSample(Frame,
                                   strata = "Hertford", 
                                   stratum = "NAME")
 hertford_samp <- hertford_samp$sample
-hertford_samp[1:3,c("NAME", "spbalSeqID", "x")]
+hertford_samp[1:10, c("NAME", "spbalSeqID", "x")]
 ```
 
 ### Panel Design from Halton Frame
@@ -781,7 +781,7 @@ The sites in panel 1 are obtained using the **getPanel()** function.
 panelid <- 1
 SitesPanel_1 <- spbal::getPanel(HaltonFramePanel, panelid)
 SitesPanel_1 <- SitesPanel_1$sample
-SitesPanel_1[1:3, c("x", "spbalSeqID", "panel_id")]
+SitesPanel_1[1:10, c("x", "spbalSeqID", "panel_id")]
 ```
 
 ## Halton Iterative Partitioning (HIP)
@@ -832,7 +832,7 @@ The HIP over-sample has 432 sites (one site from each of the 432 boxes in the HI
 
 ```{r}
 HIPoverSample <- result$overSample
-HIPoverSample[1:3,c("geometry", "spbalSeqID")]
+HIPoverSample[1:10, c("geometry", "spbalSeqID")]
 
 OverSampleSize <- dim(HIPoverSample)[1]
 OverSampleSize

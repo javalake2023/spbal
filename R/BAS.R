@@ -131,10 +131,10 @@ BAS <- function(shapefile = NULL,
   if(base::is.null(stratum)){
     # no stratification, just a simple sample wanted.
     result <- getBASSampleDriver(shapefile = shapefile,
-                                        n = n,
-                                        bb = boundingbox,
-                                        seeds = seeds,
-                                        verbose = verbose)
+                                 n = n,
+                                 bb = boundingbox,
+                                 seeds = seeds,
+                                 verbose = verbose)
     smp <- result$sample
     seeds <- result$seed
   }else{
@@ -177,11 +177,17 @@ BAS <- function(shapefile = NULL,
     S <- filterOnDistance(res$sample, minRadius)
   }
 
+  # specific column ordering in res$sample.
+  fixed_order <- base::c("SiteID", "spbalSeqID")
+  remaining_cols <- base::names(res$sample)[-base::match(fixed_order, base::names(res$sample))]
+  new_col_order <- base::c(fixed_order, remaining_cols)
+  sample <- res$sample[, new_col_order]
+
   # assign the spbal attribute to the sample being returned, i.e. the function that created it.
-  base::attr(res$sample, "spbal") <- "BAS"
+  base::attr(sample, "spbal") <- "BAS"
 
   # return the sample and the u1, u2 seeds used.
-  result <- base::list(sample    = res$sample,
+  result <- base::list(sample    = sample,
                        seed      = seeds,
                        minRadius = S)
   return(result)
@@ -276,6 +282,8 @@ getBASSampleDriver <- function(shapefile, bb, n, seeds, verbose = FALSE){
   seeds <- seedshift
   # add a sample ID for the user.
   ret_sample$spbalSeqID <- base::seq(1, base::length(ret_sample$SiteID))
+  # add the "Count" feature for NZ_DOC (acts as a unique ID for backward compatibility purposes).
+  ret_sample$Count <- ret_sample$SiteID
 
   # return sample and seeds to caller.
   result <- base::list(sample = ret_sample[1:n,],
@@ -319,8 +327,8 @@ getBASSample <- function(shapefile, bb, n, seeds){
   shift.bas <- bb.bounds[1:2]
 
   # go generate n Halton points.
-  res <- cppRSHalton_br(n = n, seeds = seedshift, bases = base::c(2, 3))
-  #res <- spbal::cppBASpts(n = n, seeds = seedshift, bases = base::c(2, 3))
+  #res <- cppRSHalton_br(n = n, seeds = seedshift, bases = base::c(2, 3))
+  res <- cppBASpts(n = n, seeds = seedshift, bases = base::c(2, 3))
   pts <- res$pts
   siteid <- base::seq(from = 1, to = n, by = 1)
   pts <- base::cbind(siteid, pts)
