@@ -164,10 +164,6 @@ BAS <- function(shapefile = NULL,
     } # end for k.
   } # end is.null(stratum).
 
-  # reorder columns.
-  #col_order <- base::c("SiteID", "spbalSeqID", "geometry")
-  #smp <- smp[, col_order]
-
   # go assign panelid's if required.
   res <- PanelDesignAssignPanelids(smp, panels, panel_overlap, panel_design, number_panels)
 
@@ -183,13 +179,17 @@ BAS <- function(shapefile = NULL,
   new_col_order <- base::c(fixed_order, remaining_cols)
   sample <- res$sample[, new_col_order]
 
+  # add the "Count" feature for NZ_DOC (acts as a unique ID for backward compatibility purposes).
+  Count <- sample$SiteID
+
   # assign the spbal attribute to the sample being returned, i.e. the function that created it.
   base::attr(sample, "spbal") <- "BAS"
 
   # return the sample and the u1, u2 seeds used.
   result <- base::list(sample    = sample,
                        seed      = seeds,
-                       minRadius = S)
+                       minRadius = S,
+                       Count     = Count)
   return(result)
 }
 
@@ -283,7 +283,7 @@ getBASSampleDriver <- function(shapefile, bb, n, seeds, verbose = FALSE){
   # add a sample ID for the user.
   ret_sample$spbalSeqID <- base::seq(1, base::length(ret_sample$SiteID))
   # add the "Count" feature for NZ_DOC (acts as a unique ID for backward compatibility purposes).
-  ret_sample$Count <- ret_sample$SiteID
+  #ret_sample$Count <- ret_sample$SiteID
 
   # return sample and seeds to caller.
   result <- base::list(sample = ret_sample[1:n,],

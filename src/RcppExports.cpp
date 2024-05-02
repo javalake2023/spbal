@@ -12,26 +12,26 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // cppBASpts
-Rcpp::List cppBASpts(int n, IntegerVector seeds, NumericVector bases, bool verbose);
+Rcpp::List cppBASpts(int n, Rcpp::IntegerVector seeds, Rcpp::NumericVector bases, bool verbose);
 RcppExport SEXP _spbal_cppBASpts(SEXP nSEXP, SEXP seedsSEXP, SEXP basesSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type seeds(seedsSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type bases(basesSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type seeds(seedsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type bases(basesSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     rcpp_result_gen = Rcpp::wrap(cppBASpts(n, seeds, bases, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
 // cppRSHalton_br
-Rcpp::List cppRSHalton_br(int n, NumericVector bases, NumericVector seeds, bool verbose);
+Rcpp::List cppRSHalton_br(int n, Rcpp::NumericVector bases, Rcpp::NumericVector seeds, bool verbose);
 RcppExport SEXP _spbal_cppRSHalton_br(SEXP nSEXP, SEXP basesSEXP, SEXP seedsSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type bases(basesSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type seeds(seedsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type bases(basesSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type seeds(seedsSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     rcpp_result_gen = Rcpp::wrap(cppRSHalton_br(n, bases, seeds, verbose));
     return rcpp_result_gen;

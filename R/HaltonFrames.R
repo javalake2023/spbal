@@ -327,6 +327,14 @@ HaltonFrame <- function(N = 1,
     seeds <- seeds # first.pt$seeds
   }
 
+  # specific column ordering in diff_.
+  fixed_order <- base::c("ID", "spbalSeqID")
+  # re-order columns for the frame.
+  remaining_cols <- base::names(diff_)[-base::match(fixed_order, base::names(diff_))]
+  new_col_order <- base::c(fixed_order, remaining_cols)
+  diff_ <- diff_[, new_col_order]
+  # no need to re-order on the grid as we display all the points, not just the study area.
+
   # assign the spbal attribute to the sample being returned, i.e. the function that created it.
   base::attr(diff_, "spbal") <- "HaltonFrame"
   base::attr(pts.shp, "spbal") <- "HaltonFrame"

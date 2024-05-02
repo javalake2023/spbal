@@ -529,8 +529,15 @@ HIP <- function(population = NULL,
 
   # go assign panelid's if required. (returns $sample)
   result <- PanelDesignAssignPanelids(PopulationSample, panels, panel_overlap, panel_design, number_panels)
-  PopulationSample <- result$sample[1:n,]
-  overSample <- result$sample
+
+  # specific column ordering in result$sample.
+  fixed_order <- base::c("HaltonIndex", "spbalSeqID")
+  remaining_cols <- base::names(result$sample)[-base::match(fixed_order, base::names(result$sample))]
+  new_col_order <- base::c(fixed_order, remaining_cols)
+  sample <- result$sample[, new_col_order]
+
+  PopulationSample <- sample[1:n,]
+  overSample <- sample
 
   # go filter overSample if user has specified a minimum radius.
   S <- filterOnDistance(overSample, minRadius)

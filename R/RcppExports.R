@@ -19,31 +19,33 @@ NULL
 
 #' @name mod
 #'
-#' @title Need to fill in.
+#' @title Vector modulus.
 #'
-#' @description Need to fill in.
+#' @description Computes the remainder of dividing a by n using the modulo operator.
+#' This function uses a trick to avoid using the modulo operator directly, which can be slow
+#' for large values of a and n.
 #'
 #' @details This function was written by Phil Davies.
 #'
-#' @param a Need to fill in.
-#' @param n Need to fill in.
+#' @param a The input value of type T. This is a NumericVector.
+#' @param n The divisor of type int.
 #'
-#' @return Need to fill in.
+#' @return The remainder of dividing a by n, of type T in the form of a NumericVector.
 #'
 #' @keywords internal
 NULL
 
 #' @name removeDuplicates
 #'
-#' @title Need to fill in.
+#' @title Remove duplicate values from a NumericVector.
 #'
 #' @description Need to fill in.
 #'
 #' @details This function was written by Phil Davies.
 #'
-#' @param vec Need to fill in.
+#' @param vec A NumericVector that may contain duplicate values.
 #'
-#' @return Need to fill in.
+#' @return A NumericVector that is sorted with duplicates removed.
 #'
 #' @keywords internal
 NULL

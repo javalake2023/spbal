@@ -39,16 +39,18 @@ double log_a_to_base_b(long long a, int b){
 
 //' @name mod
 //'
-//' @title Need to fill in.
+//' @title Vector modulus.
 //'
-//' @description Need to fill in.
+//' @description Computes the remainder of dividing a by n using the modulo operator.
+//' This function uses a trick to avoid using the modulo operator directly, which can be slow
+//' for large values of a and n.
 //'
 //' @details This function was written by Phil Davies.
 //'
-//' @param a Need to fill in.
-//' @param n Need to fill in.
+//' @param a The input value of type T. This is a NumericVector.
+//' @param n The divisor of type int.
 //'
-//' @return Need to fill in.
+//' @return The remainder of dividing a by n, of type T in the form of a NumericVector.
 //'
 //' @keywords internal
 template<typename T>
@@ -59,15 +61,15 @@ T mod(T a, int n){
 
 //' @name removeDuplicates
 //'
-//' @title Need to fill in.
+//' @title Remove duplicate values from a NumericVector.
 //'
 //' @description Need to fill in.
 //'
 //' @details This function was written by Phil Davies.
 //'
-//' @param vec Need to fill in.
+//' @param vec A NumericVector that may contain duplicate values.
 //'
-//' @return Need to fill in.
+//' @return A NumericVector that is sorted with duplicates removed.
 //'
 //' @keywords internal
 Rcpp::NumericVector removeDuplicates(Rcpp::NumericVector vec){
@@ -76,12 +78,6 @@ Rcpp::NumericVector removeDuplicates(Rcpp::NumericVector vec){
   // remove duplicates
   vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
   return vec;
-}
-
-
-Rcpp::IntegerVector sample_int_v2(int max_int, int num_seeds) {
-  Rcpp::IntegerVector v = Rcpp::sample(max_int, num_seeds);
-  return v;
 }
 
 
@@ -112,25 +108,18 @@ Rcpp::IntegerVector sample_int_v2(int max_int, int num_seeds) {
 //' @export
 // [[Rcpp::export(rng = false)]]
 Rcpp::List cppBASpts(int n = 10,
-                     IntegerVector seeds = Rcpp::IntegerVector::create(),
-                     NumericVector bases = Rcpp::NumericVector::create(),
+                     Rcpp::IntegerVector seeds = Rcpp::IntegerVector::create(),
+                     Rcpp::NumericVector bases = Rcpp::NumericVector::create(),
                      bool verbose = false)
 {
   // set default seeds values
   if (seeds.size() == 0){
-    //seeds = sample_int(2, 0, 62208);
-    seeds = sample_int_v2(62208, 2);
+    seeds = {0, 0};
   }
   // set default bases values
   if (bases.size() == 0){
     bases = {2, 3};
   }
-
-  //if(verbose){
-  //  RcppThread::Rcout << "cppBASpts() n     : " << n     << std::endl;
-  //  RcppThread::Rcout << "cppBASpts() seeds : " << seeds << std::endl;
-  //  RcppThread::Rcout << "cppBASpts() bases : " << bases << std::endl;
-  //}
 
   // initialise variables
   int d = bases.length();
@@ -141,9 +130,6 @@ Rcpp::List cppBASpts(int n = 10,
   Rcpp::NumericMatrix pts(n, d);
 
   if (seeds.length() != d){
-    //if(verbose){
-    //  RcppThread::Rcout << "cppBASpts() seeds.length() != d : " << std::endl;
-    //}
     seeds = Rcpp::rep(seeds[1], d);
   }
 
@@ -160,7 +146,7 @@ Rcpp::List cppBASpts(int n = 10,
     for (int j = 0; j < (std::ceil(log_a_to_base_b(u + n, b)) + 2); j++){
       Rcpp::NumericVector tmp1 = Rcpp::floor(k / std::pow(b, j + 1));
       //int tmp000 = std::pow(b, (j + 2));
-      NumericVector tmp2 = mod(tmp1, b) / std::pow(b, (j + 2));
+      Rcpp::NumericVector tmp2 = mod(tmp1, b) / std::pow(b, (j + 2));
       xk = xk + tmp2;
     } // end for j
 
@@ -205,24 +191,17 @@ Rcpp::List cppBASpts(int n = 10,
 //' @export
 // [[Rcpp::export(rng = false)]]
 Rcpp::List cppRSHalton_br(int n = 10,
-                          NumericVector bases = Rcpp::NumericVector::create(),
-                          NumericVector seeds = Rcpp::NumericVector::create(),
+                          Rcpp::NumericVector bases = Rcpp::NumericVector::create(),
+                          Rcpp::NumericVector seeds = Rcpp::NumericVector::create(),
                           bool verbose = false)
 {
   // defaults: n = 10, bases = c(2, 3), seeds = c(0, 0)
-
-  //if (seeds.size() == 0){
-  //  seeds = {0, 0};
-  //}
+  if (seeds.size() == 0){
+    seeds = {0, 0};
+  }
   if (bases.size() == 0){
     bases = {2, 3};
   }
-
-  //if(verbose){
-  //  RcppThread::Rcout << "cppRSHalton_br() n     : " << n     << std::endl;
-  //  RcppThread::Rcout << "cppRSHalton_br() seeds : " << seeds << std::endl;
-  //  RcppThread::Rcout << "cppRSHalton_br() bases : " << bases << std::endl;
-  //}
 
   // initialize variables.
   long long UpLim = std::pow(10, 15);
@@ -284,8 +263,8 @@ Rcpp::List cppRSHalton_br(int n = 10,
 
     for (int j = 1; j <= (std::ceil(log_a_to_base_b(u2 + n, b)) + 2); j++){
       //
-      NumericVector tmp1 = Rcpp::floor(k / std::pow(b, j));
-      NumericVector tmp2 = mod(tmp1, b) / std::pow(b, (j + 1));
+      Rcpp::NumericVector tmp1 = Rcpp::floor(k / std::pow(b, j));
+      Rcpp::NumericVector tmp2 = mod(tmp1, b) / std::pow(b, (j + 1));
       xk = xk + tmp2;
     } // end for j
 
