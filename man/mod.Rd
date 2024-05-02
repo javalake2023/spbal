@@ -2,17 +2,19 @@
 % Please edit documentation in R/RcppExports.R
 \name{mod}
 \alias{mod}
-\title{Need to fill in.}
+\title{Vector modulus.}
 \arguments{
-\item{a}{Need to fill in.}
+\item{a}{The input value of type T. This is a NumericVector.}
 
-\item{n}{Need to fill in.}
+\item{n}{The divisor of type int.}
 }
 \value{
-Need to fill in.
+The remainder of dividing a by n, of type T in the form of a NumericVector.
 }
 \description{
-Need to fill in.
+Computes the remainder of dividing a by n using the modulo operator.
+This function uses a trick to avoid using the modulo operator directly, which can be slow
+for large values of a and n.
 }
 \details{
 This function was written by Phil Davies.

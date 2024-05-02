@@ -1,4 +1,3 @@
- spbal
 
 Repository to hold R package spbal.
 

@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{removeDuplicates}
 \alias{removeDuplicates}
-\title{Need to fill in.}
+\title{Remove duplicate values from a NumericVector.}
 \arguments{
-\item{vec}{Need to fill in.}
+\item{vec}{A NumericVector that may contain duplicate values.}
 }
 \value{
-Need to fill in.
+A NumericVector that is sorted with duplicates removed.
 }
 \description{
 Need to fill in.
