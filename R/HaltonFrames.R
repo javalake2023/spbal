@@ -233,6 +233,9 @@ HaltonFrame <- function(N = 1,
         #sorted_samp <- ret_sample
         sorted_samp <- df_sorted
         sorted_samp$spbalSeqID <- base::seq(1, base::length(sorted_samp$ID))
+        # add stratum as a new column.
+        sorted_samp[[stratum]] <- strata.levels[h]
+
         diff_ <- sorted_samp[1:N[h],]
         # return original seeds.
         #seeds <- first.pt$seeds

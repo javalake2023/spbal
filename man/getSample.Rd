@@ -25,11 +25,6 @@ A list containing the following variable:
 \itemize{
 \item \code{sample} The sample from the shapefile POINTS.
 }
-
-\itemize{
-\item \code{getSample(Frame, n)} output the first $n$ points from Frame
-\item \code{getSample(Frame, n, randomStart = TRUE)} output $n$ points (in the order of the frame)
-}
 }
 \description{
 A description of this useful function.

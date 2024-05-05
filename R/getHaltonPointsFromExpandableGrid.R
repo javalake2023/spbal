@@ -53,6 +53,8 @@ getHaltonPointsFromExpandableGrid <- function(shapefile,
   if(!stratify_found_first){
     while(pts_in_intersection < 1){
       # get the frame.
+      #message("pt. 1")
+      #message(as.numeric(Sys.time())*1000, digits=15)
       result <- getHaltonFrame(shapefile = shapefile,
                                J = J,
                                i = i,
@@ -72,8 +74,22 @@ getHaltonPointsFromExpandableGrid <- function(shapefile,
 
       # find points in the study area.
       # getHaltonFrame will always return with points from the study area.
-      diff_ <- sf::st_intersection(tmp, shapefile)
+      #message("pt. 2")
+      #message(as.numeric(Sys.time())*1000, digits=15)
+      #diff_ <- sf::st_intersection(tmp, shapefile)
+
+      sel_sgbp = st_intersects(x = tmp, y = shapefile)
+      sel_logical = lengths(sel_sgbp) > 0
+      diff_ = tmp[sel_logical, ]
+      #browser()
+      #diff_ = shapefile[sel_logical, ]
+
+      #message("pt. 3")
+      #message(as.numeric(Sys.time())*1000, digits=15)
+
       diff_ <- diff_[base::order(diff_$ID),]
+      #message("pt. 4")
+      #message(as.numeric(Sys.time())*1000, digits=15)
 
       # expand the Halton frame until we have seeds that give first point in study region.
       # (just in case - generally will find the first point on the first try).
@@ -130,7 +146,10 @@ getHaltonPointsFromExpandableGrid <- function(shapefile,
     tmp <- sf::st_as_sf(tmp)
     tmp$ID <- base::seq(1, base::dim(pts)[1])
     # find the points in our study area.
-    diff_ <- sf::st_intersection(tmp, shapefile)
+    #diff_ <- sf::st_intersection(tmp, shapefile)
+    sel_sgbp = st_intersects(x = tmp, y = shapefile)
+    sel_logical = lengths(sel_sgbp) > 0
+    diff_ = tmp[sel_logical, ]
     diff_ <- diff_[base::order(diff_$ID), ]
 
     # find number of points within our shapefile.

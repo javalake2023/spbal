@@ -261,7 +261,6 @@ shp_subset <- shp_file[shp_file[["NAME"]] %in% strata,]
 Define the bounding box for Gates, Northampton and Hertford using **spbal**.
 
 ```{r results='hide', message=FALSE}
-set.seed(511)
 bb_strata <- spbal::BoundingBox(shapefile = shp_subset)
 ```
 
@@ -729,7 +728,6 @@ shp_subset <- shp_file[shp_file[["NAME"]] %in% strata,]
 Define the bounding box for Gates, Northampton and Hertford using **spbal**.
 
 ```{r results='hide', message=FALSE}
-set.seed(511)
 bb_strata <- spbal::BoundingBox(shapefile = shp_subset)
 ```
 
@@ -853,5 +851,37 @@ HIP selects spatially balanced samples, but the algorithm can choose sites close
 
 HIP Panel designs are also possible in **spbal**. Use the **panels** and **n_panel_overlap** parameters as demonstrated for the **BAS** and **HaltonFrame** functions.
 
+## More Details
+
+The following section provides more details on the __spbal__ package functions *getSample* and *getPanel*.
+These functions only accept objects created by __spbal__ as input via the *shapefile* parameter. 
+
+### *getSample*
+
+The **spbal** *getSample* function can be applied to outputs produced by the __spbal__ *BAS* and *HaltonFrame* functions. 
+
+#### Non-Stratified samples
+
+Let 'shp' be the output from *BAS* or *HaltonFrame*, then
+
+- __getSample(shapefile = shp, n = n)__ will output the first $n$ points from $shp$.
+- __getSample(shapefile = shp, n = n, randomStart = TRUE)__ will output $n$ points (in the order of the frame) from a random starting point in $shp$.
+
+#### Stratified samples
+
+In the case where the input is a stratified sample, both the $strata$ and $stratum$ parameters must be specified. If they are specified then the $n$ parameter need not be specified, if it is, it will be ignored. In this case *getSample* will return all points of a stratified sample. The parameter $randomStart$ is not supported when dealing with stratified samples. If specified it will be ignored.
+
+- __getSample(shapefile = shp, strata = strata, stratum = stratum)__ will output all points from $shp$ where the column name specified by the $stratum$ parameter contains the value specified by the $strata$ parameter.
+
+### *getPanel*
+
+The **spbal** *getPanel* function can be applied to outputs produced by the __spbal__ *BAS* and *HaltonFrame* functions.
+
+Let 'shp' be the output from *BAS* or *HaltonFrame*, then
+
+- __getPanel(shapefile = shp, panelid = panelid)__ will output all the points belonging to panel $panelid$ from $shp$.
+
+
+Use the *R* help function for more information on these functions.
 
 ## The End

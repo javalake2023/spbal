@@ -22,15 +22,6 @@
 #' \item \code{sample} The sample from the shapefile POINTS.
 #' }
 #'
-
-# Drop the random sample functionality from HaltonFrame (sorry!) and have a 'getSample'
-# function (like getPanel). Let 'Frame' be the output from HaltonFrame, then
-#' \itemize{
-#'     \item \code{getSample(Frame, n)} output the first $n$ points from Frame
-#'     \item \code{getSample(Frame, n, randomStart = TRUE)} output $n$ points (in the order of the frame)
-#'     }
-# from a random starting point in Frame.
-#'
 #' @examples
 #' # Draw a spatially balanced sample of n = 25 from a Halton Frame over Gates --
 #'
@@ -64,14 +55,10 @@ getSample <- function(shapefile,
                       stratum = NULL){
 
   # need to validate what function created shapefile. Only accept output from the spbal::HaltonFrame
-  # function.
+  # function and spbal::BAS.
   if(!base::attr(shapefile, "spbal") %in% base::c("HaltonFrame", "BAS")){
-    base::stop("spbal(getSample) unsupported function for this shapefile.")
+    base::stop("spbal(getSample) unsupported function for this spbal shapefile.")
   }
-
-  # can accept input of either a MULTIPOINT object or a POINT object.
-  # either $sample or $hf.pts.shp from the HaltonFrame function.
-  validate_parameters("n", base::c(n))
 
   # strata and stratum must be both NULL or both not NULL.
   if((base::is.null(strata) && !base::is.null(stratum))|(!base::is.null(strata) && base::is.null(stratum))){
@@ -81,6 +68,13 @@ getSample <- function(shapefile,
   stratification <- FALSE
   if(!base::is.null(strata) && !base::is.null(stratum)){
     stratification <- TRUE
+    # random start not suported if stratification.
+    randomStart = FALSE
+  } else {
+    # only check n when not using stratification.
+    # can accept input of either a MULTIPOINT object or a POINT object.
+    # either $sample or $hf.pts.shp from the HaltonFrame function.
+    validate_parameters("n", base::c(n))
   }
 
   # Get the geometry type
@@ -99,7 +93,7 @@ getSample <- function(shapefile,
   # if a MULTIPOINT object need to make a POINT object first. should be from $hf.pts.shp.
   if(is_multipoint){
     # get data for the Halton frame.
-    base::message("spbal(getSample) is_multipoint.")
+    #base::message("spbal(getSample) is_multipoint.")
     hf_pts <- sf::st_cast(shapefile, "POINT")
     hf_pts <- sf::st_as_sf(hf_pts)
     hf_pts$ID <- base::seq(1, base::length(hf_pts$x))
@@ -113,7 +107,7 @@ getSample <- function(shapefile,
   # if is_point TRUE then shapefile from $sample
   if(randomStart){
     # points will already be sorted and each have a valid $spbalSeqID
-    base::message("spbal(getSample) is_randomStart.")
+    #base::message("spbal(getSample) is_randomStart.")
     duplicated_pts <- base::rbind(shapefile, shapefile)
     random_start_point <- base::sample(1:base::length(duplicated_pts$ID), 1)
     sample_indices <- base::seq(random_start_point, (random_start_point + n) - 1, 1)
@@ -123,18 +117,19 @@ getSample <- function(shapefile,
     # lets sort on $spbalSeqID to be sure...
     shp_sorted <- shapefile[base::order(shapefile$spbalSeqID), ]
     if(stratification){
+      # then we will already have provided n samples.
       stratified_sample <- shp_sorted[shp_sorted[[stratum]] %in% strata,]
-      if(n > base::length(stratified_sample$spbalSeqID)){
-        msg <- "spbal(getSample) Warning - n (%s) exceeds number of points in strata (%s). Returning %s points."
-        msgs <- base::sprintf(msg, n, strata, base::length(stratified_sample$spbalSeqID))
-        base::message(msgs)
-        n <- base::length(stratified_sample$spbalSeqID)
-      }
+      #if(n > base::length(stratified_sample$spbalSeqID)){
+      #  msg <- "spbal(getSample) Warning - n (%s) exceeds number of points in strata (%s). Returning %s points."
+      #  msgs <- base::sprintf(msg, n, strata, base::length(stratified_sample$spbalSeqID))
+      #  base::message(msgs)
+      n <- base::length(stratified_sample$spbalSeqID)
+      #}
       # get our n sample points.
       sample <- stratified_sample[1:n,]
     } else {
       # not a random start so just return the first n sample points.
-      base::message("spbal(getSample) is_not_randomStart and not stratified.")
+      #base::message("spbal(getSample) is_not_randomStart and not stratified.")
       if(n > base::length(shp_sorted$spbalSeqID)){
         msg <- "spbal(getSample) Warning - n (%s) exceeds number of points in shapefile. Returning %s points."
         msgs <- base::sprintf(msg, n, base::length(shp_sorted$spbalSeqID))
@@ -149,7 +144,7 @@ getSample <- function(shapefile,
   # assign the spbal attribute to the sample being returned, i.e. the function that created it.
   base::attr(sample, "spbal") <- "getSample"
 
-  # package up objects to be returned.
+  # package up object to be returned.
   result <- base::list(sample = sample)
   return(result)
 }
