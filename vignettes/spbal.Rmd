@@ -42,7 +42,7 @@ library(gridExtra)
 # spbal 
 
 This vignette is intended to provide details of the functions and methods provided in the __spbal__ package.
-The **spbal** package has three spatially balanced sample designs: BAS, Halton Frames and HIP. This document illustrates how samples are drawn using **spbal**, including master and stratified sampling applications. The package is freely available from CRAN. This document was created with **spbal** version 1.0.0.
+The **spbal** package has three spatially balanced sample designs: BAS, Halton Frames and HIP. This document illustrates how samples are drawn using **spbal**, including master and stratified sampling applications. The package is freely available from CRAN. This document was created with **spbal** version $1.0.0$.
 
 This vignette is divided into the following sections:
 
@@ -59,11 +59,11 @@ Draw a random sample without replacement from a population.
 
 ### spbal::SRS()
 
-This function invokes __base::sample()__ to draw a random sample using a user specified random seed. Returned is a list of random positive integers of length __sample_size__, in the range 1 to __total_rows__, these can then be used to index the original population data.
+This function invokes __base::sample()__ to draw a random sample using a user specified random seed. Returned is a list of random positive integers of length __sample_size__, in the range $1$ to __total_rows__, these can then be used to index the original population data.
 
 The following parameters are supported:
 
-+ __seed__ - The random seed to be used to draw the current sample. The default is 42.
++ __seed__ - The random seed to be used to draw the current sample. The default is $42$.
 + __total_rows__ - The total number of rows in your population.
 + __sample_size__ - The number of rows wanted in the random sample.
 
@@ -73,7 +73,7 @@ All parameter values must be numeric and have values greater than zero, __sample
 
 Function __spbal::SRS()__ returns a list of size __sample_size__.
 
-```{r}
+```{r srs1}
 # Create a random sample of 20 with a seed of 99 from a population of 100.
 rand_samp <- spbal::SRS(seed = 99, total_rows = 100, sample_size = 20)
 rand_samp
@@ -92,7 +92,7 @@ The __spbal::BAS()__ function supports the following input parameters:
 sample sizes of each group.
 + __boundingbox__ The bounding box that surrounds the study areea. A bounding box must be supplied.
 + __minRadius__ If specified, the minimum distance, in meters, allowed between sample
-points. This is applied to the $sample points. Points that meet the __minRadius__ criteria
+points. This is applied to the *$sample* points. Points that meet the __minRadius__ criteria
 are returned in the __minRadius__ output variable. The default value for __minRadius__.
 + __panels__ A list of integers that define the size of each panel in a
 non-overlapping panels design. The length of the list determines the number of
@@ -138,9 +138,9 @@ bb <- spbal::BoundingBox(shapefile = shp_gates)
 
 ### Equal probability BAS sample.
 
-This section uses the Gates county loaded above. The first example design is an equal probability BAS sample of $n=20$ survey sites from Gates, North Carolina, U.S.A. The call is below:
+This section uses the Gates county loaded above. The first example design is an equal probability BAS sample of $n = 20$ survey sites from Gates, North Carolina, U.S.A. The call is below:
 
-```{R warning=FALSE, message=FALSE}
+```{R BASex2a,warning=FALSE, message=FALSE}
 set.seed(511)
 n_samples <- 20
 result <- spbal::BAS(shapefile = shp_gates,
@@ -149,7 +149,7 @@ result <- spbal::BAS(shapefile = shp_gates,
 BAS20 <- result$sample
 ```
 
-```{r }
+```{r BASex3a}
 BAS20
 ```
 
@@ -187,9 +187,9 @@ ggplot() +
 
 ### Increase the BAS sample size.
 
-To increase this BAS sample of 20 sites to 50 sites, we take the first 50 points from the random-start Halton sequence that BAS used to draw its sample. **spbal** achieves this by specifying the random seed integers from the first sample using the following call.
+To increase this BAS sample of $20$ sites to $50$ sites, we take the first $50$ points from the random-start Halton sequence that BAS used to draw its sample. **spbal** achieves this by specifying the random seed integers from the first sample using the following call.
 
-```{R message=FALSE, warning=FALSE}
+```{R BASex4a,message=FALSE, warning=FALSE}
 n_samples <- 50
 result2 <- spbal::BAS(shapefile = shp_gates,
                       n = n_samples,
@@ -206,7 +206,7 @@ The first 20 sites in **BAS50** are identical to **BAS20**. The sample size can 
 
 Plot the BAS point ordering, **BAS20** and **BAS50** using ggplot.
 
-```{r warning=FALSE, message=FALSE}
+```{r BASex5a, warning=FALSE, message=FALSE}
 ## Convert foreign object to an sf object for ggplot.
 gates <- sf::st_as_sf(shp_gates, coords = c("longitude", "latitude"))
 ggplot() +
@@ -252,7 +252,7 @@ state of North Carolina, U.S.A, with $20$ sites from Gates, $20$ from Northampto
 and $10$ from Hertford. The code for this stratified design is provided below,
 and the survey sites within each stratum can be seen in the figure below.
 
-```{R results='hide', message=FALSE}
+```{R BASex6a, results='hide', message=FALSE}
 strata <- c("Gates", "Northampton", "Hertford")
 n_strata <- c("Gates" = 20, "Northampton" = 20, "Hertford" = 10)
 shp_subset <- shp_file[shp_file[["NAME"]] %in% strata,]
@@ -260,13 +260,13 @@ shp_subset <- shp_file[shp_file[["NAME"]] %in% strata,]
 
 Define the bounding box for Gates, Northampton and Hertford using **spbal**.
 
-```{r results='hide', message=FALSE}
+```{r BASex7a, results='hide', message=FALSE}
 bb_strata <- spbal::BoundingBox(shapefile = shp_subset)
 ```
 
 Draw the stratified sample from the BAS master sample and display the first three sites in the Gates region.
 
-```{r results='hide', message=FALSE}
+```{r BASex8a, results='hide', message=FALSE}
 set.seed(511)
 result3 <- spbal::BAS(shapefile = shp_subset,
                       n = n_strata,
@@ -275,13 +275,13 @@ result3 <- spbal::BAS(shapefile = shp_subset,
 BASMaster <- result3$sample
 gates_samp <- BASMaster[BASMaster[["NAME"]] %in% "Gates",]
 ```
-```{r }
+```{r BASex9a}
 gates_samp 
 ```
 
 Plot the stratified sample using ggplot.
 
-```{r }
+```{r BASex10a}
 strat <- sf::st_as_sf(shp_subset, coords = c("longitude", "latitude"))
 
 gates_samp       <- BASMaster[BASMaster[["NAME"]] %in% "Gates",]
@@ -321,9 +321,9 @@ ggplot() +
 
 ### Increasing or decreasing strata sample sizes.
 
-The stratum sample sizes can be easily increased or decreased using points from the master sample. For instance, one may double the number of survey sites in the Hertford stratum (from 10 to 20) for the stratified design above using the **seeds** input. The call is below.
+The stratum sample sizes can be easily increased or decreased using points from the master sample. For instance, one may double the number of survey sites in the Hertford stratum (from $10$ to $20$) for the stratified design above using the **seeds** input. The call is below.
 
-```{R BASex1f}
+```{R BASex11f}
 n_strata <- c("Gates" = 20, "Northampton" = 20, "Hertford" = 20)
 result4 <- spbal::BAS(shapefile = shp_subset,
                       n = n_strata,
@@ -335,16 +335,16 @@ gates_samp2 <- BASMaster[BASMaster[["NAME"]] %in% "Gates",]
 gates_samp2
 ```
 
-The 20 sites in **gates_samp2** are identical to **gates_samp** because the same seed point was used.
+The $20$ sites in **gates_samp2** are identical to **gates_samp** because the same seed point was used.
 
-```{r }
+```{r BASex12a}
 # Ensure gates_samp is equal to the first 10 sites in gates_samp2. Must return TRUE.
 all.equal(gates_samp$geometry[1:20], gates_samp2$geometry[1:20])
 ```
 
 Plot the increased stratified sample using ggplot.
 
-```{r }
+```{r BASex13a}
 gates_samp4       <- BASMaster[BASMaster[["NAME"]] %in% "Gates",]
 northampton_samp4 <- BASMaster[BASMaster[["NAME"]] %in% "Northampton",]
 hertford_samp4    <- BASMaster[BASMaster[["NAME"]] %in% "Hertford",]
@@ -381,9 +381,9 @@ ggplot() +
 
 ### Non-Overlapping panel design.
 
-The final BAS example design with **spbal** is a non-overlapping panel design for surveying over time. This design has three panels containing 20 survey sites from the county of Gates, North Carolina, U.S.A. Each panel is a spatially balanced sample of size $n=20$, and the collection of sites from all panels is a spatially balanced sample of size $n=60$.
+The final BAS example design with **spbal** is a non-overlapping panel design for surveying over time. This design has three panels containing $20$ survey sites from the county of Gates, North Carolina, U.S.A. Each panel is a spatially balanced sample of size $n = 20$, and the collection of sites from all panels is a spatially balanced sample of size $n = 60$.
 
-```{R BASex1g}
+```{R BASex14g}
 set.seed(511)
 
 n_panels <- c(20, 20, 20)
@@ -394,9 +394,9 @@ BASpanel <- result5$sample
 BASpanel
 ```
 
-The sites in panel 2 are obtained using the **getPanel()** function as follows.
+The sites in panel $2$ are obtained using the **getPanel()** function as follows.
 
-```{r }
+```{r BASex15a}
 panel_2 <- spbal::getPanel(BASpanel, 2)
 panel_2 <- panel_2$sample
 panel_2
@@ -404,10 +404,16 @@ panel_2
 
 Plot the sample sites in each panel using ggplot.
 
-```{r warning=FALSE}
+```{r BASex16a, warning=FALSE}
+# to extract the sample points associated with a specific panelid, we can use the following code:
 panel_1 <- BASpanel[BASpanel$panel_id == 1,]
 panel_2 <- BASpanel[BASpanel$panel_id == 2,]
 panel_3 <- BASpanel[BASpanel$panel_id == 3,]
+
+# or use the spbal::getPanel() function.
+#panel_1 <- spbal::getPanel(BASpanel, 1)
+#panel_2 <- spbal::getPanel(BASpanel, 2)
+#panel_3 <- spbal::getPanel(BASpanel, 3)
 
 ggplot() +
   geom_sf() +
@@ -441,9 +447,9 @@ ggplot() +
 
 ### Overlapping panel design.
 
-Panel overlaps are also possible in **spbal**. The following call sets the last five elements from panel 1 as the first five elements in panel 2 and the last five elements from panel 2 as the first five elements in panel 3 (50 unique sites). Because the overlaps are sub-samples of consecutive BAS points, they are well-spread over the study region. Furthermore, each panel is a spatially balanced sample of size $n=20$, and the collection of sites from all panels is a spatially balanced sample of size $n= 50$.
+Panel overlaps are also possible in **spbal**. The following call sets the last five elements from panel $1$ as the first five elements in panel $2$ and the last five elements from panel $2$ as the first five elements in panel $3$ ($50$ unique sites). Because the overlaps are sub-samples of consecutive BAS points, they are well-spread over the study region. Furthermore, each panel is a spatially balanced sample of size $n = 20$, and the collection of sites from all panels is a spatially balanced sample of size $n = 50$.
 
-```{r results='hide', message=FALSE}
+```{r BASex17a, results='hide', message=FALSE}
 set.seed(511)
 n_panels <- c(20, 20, 20)
 n_panel_overlap <- c(0, 5, 5)
@@ -454,9 +460,9 @@ result6 <- spbal::BAS(shapefile = shp_gates,
 BASpanel <- result6$sample
 ```
 
-The sites in panel 2 are obtained using the **getPanel()** function as follows. The first five sites in panel 2 are also in panel 1 so **panel_id** = 1, 2 for these sites.
+The sites in panel $2$ are obtained using the **getPanel()** function as follows. The first five sites in panel $2$ are also in panel $1$ so **panel_id** = $1, 2$ for these sites.
 
-```{r }
+```{r BASex18a}
 panel_2 <- spbal::getPanel(BASpanel, 2)
 panel_2 <- panel_2$sample
 panel_2[1:5,]
@@ -464,7 +470,7 @@ panel_2[1:5,]
 
 Plot our overlapped samples.
 
-```{r }
+```{r BASex19a}
 panel_1 <- spbal::getPanel(BASpanel, 1)
 panel_2 <- spbal::getPanel(BASpanel, 2)
 panel_3 <- spbal::getPanel(BASpanel, 3)
@@ -506,13 +512,48 @@ Halton Frames discretize an areal resource into a spatially ordered grid, where 
 
 ### spbal::HaltonFrame()
 
-Need to add function description, parameter descriptions.
+The __spbal::HaltonFrame()__ function supports the following input parameters:
+
++ __shapefile__ The shape file as a polygon (sp or sf) to select sites for.
++ __N__ The number of points in the frame to generate.
++ __J__ The number of grid cells. A list of $2$ values. The default value is $c(3, 2)$.
++ __bases__ Co-prime base for the Halton Sequence. The default value is $c(2, 3)$.
++ __boundingbox__ The bounding box that surrounds the study areea. A bounding box must be supplied.
++ __panels__ A list of integers that define the size of each panel in a
+non-overlapping panels design. The length of the list determines the number of
+panels required. The sum of the integers in the panels parameter will determine
+the total number of samples selected, __n__. The default value for __panels__ is NULL,
+this indicates that a non-overlapping panel design is not wanted.
++ __panel_overlap__ A list of integers that define the overlap into the previous
+panel. Is only used when the __panels__ parameter is not NULL. The default value for
+__panel_overlap__ is NULL. The length of __panel_overlap__ must be equal to the length
+of panels. The first value is always forced to zero as the first panel never overlaps any region.
++ __stratum__ The name of a feature column in the __shapefile__ that defines the strata of interest. The default value is NULL indicating that stratification will not be performed.
++ __seeds__ A vector of two seeds, __u1__ and __u2__. If not specified, the default is NULL and will
+be defined randomly.
++ __verbose__ A boolean, if you want to see any output printed to screen set to TRUE. Helpful if taking a
+long time. The default is FALSE i.e. no informational messages will be displayed.
+
+The __HaltonFrame()__ function returns a list containing five variables:
+
++ __J__ The number of grid cells. A list of $2$ values that were used to generate this Halton grid and frame.
++ __hg.pts.shp__ Halton grid over the bounding box and study area.
++ __hf.pts.shp__ Halton frame, the sample points within the study area.
++ __bb__ The bounding box surrounding the study area.
++ __seeds__ The $u1$ and $u2$ seeds used to generate the sample.
+
+The sample points in *hf.pts.shp* are returned in the form of a simple feature collection of POINT objects. As well as having the features from the original shapefile, the following new attributes have been added:
+ 
+** Need to verify this**
+
++ __SiteID__ A unique identifier, the Halton frame point order.
++ __spbalSeqID__ A unique identifier for every sample point.
 
 ### spbal::HaltonFrame() code example
 
-To generate Halton Frames, **spbal** requires a study region shapefile and the region's bounding box. To illustrate Halton Frames, we discretize the Gates study region into a coarse grid using $B = 2^{J_1} \times 3^{J_2}= 2^3 \times 3^2$ (9 by 8 grid). The call is below.
+To generate Halton Frames, **spbal** requires a study region shapefile and the region's bounding box. To illustrate Halton Frames, we discretize the Gates study region into a coarse grid using $B = 2^{J_1} \times 3^{J_2}= 2^3 \times 3^2$ (a $9$ by $8$ grid). The call is below.
 
-```{r message=FALSE, warning=FALSE, results='hide'}
+```{r HFex1a, message=FALSE, warning=FALSE, results='hide'}
 set.seed(511)
 result6 <- spbal::HaltonFrame(shapefile = shp_gates, 
                               J = c(3, 2),
@@ -585,7 +626,7 @@ ggplot() +
 
 The second example frame generates a fine grid using an approximately regular $B = 2^8 \times 3^5 = 256 \times 243$ Halton Frame over Gates and draws a spatially balanced sample of $n = 25$. The call is below.
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r HFex1d, results='hide', message=FALSE, warning=FALSE}
 set.seed(511)
 result7 <- spbal::HaltonFrame(shapefile = shp_gates,
                               J = c(8, 5),
@@ -597,7 +638,7 @@ Draw $n = 25$ sites from the Halton Frame using the **getSample()** function.
 
 The first 25 sites from a $B = 2^{8} * 3^{5}$ Halton Frame ($62,208$ grid points covering Gates), the numbering shows the frame's ordering, where sub-samples of consecutively numbered points are spatially balanced samples.
 
-```{r message=FALSE, warning=FALSE}
+```{r HFex1e, message=FALSE, warning=FALSE}
 n_samples <- 25
 FrameSample <-getSample(shapefile = Frame, 
                         n = n_samples)
@@ -607,7 +648,7 @@ FrameSample[1:10, c("x", "spbalSeqID")]
 
 Plot the sample and number the points in the frame's order (given by **spbalSeqID**) using ggplot.
 
-```{r warning=FALSE}
+```{r HFex1f, warning=FALSE}
 ggplot() +
   geom_sf() +
   geom_sf(data = gates, size = 4, shape = 23) +
@@ -636,8 +677,7 @@ ggplot() +
 
 It is also possible to draw a spatially balanced sample from a random position in the frame using the **getSample()** function. The call for an $n = 20$ sample is given below. Note the use of the **randomStart = TRUE** parameter to generate the sample from a random position.
 
-```{r warning=FALSE, message=FALSE}
-set.seed(511)
+```{r HFex1g, warning=FALSE, message=FALSE}
 n_samples <- 20
 FrameSample <-getSample(shapefile = Frame, 
                         n = n_samples, 
@@ -651,6 +691,8 @@ FrameSample[1:10, c("x", "spbalSeqID")]
 The following example generates an overlapping panel design for surveying over time with three panels, each with $20$ sites with a panel overlap of five.
 
 ```{R HFex3a}
+set.seed(511)
+
 # Three panels, of 20 samples each.
 panels <- c(20, 20, 20)
 
@@ -714,12 +756,11 @@ ggplot() +
 
 ### Halton Frame Stratified sample.
 
-Stratified samples can be selected from a Halton Frame with **spbal**. To implement this design, the input shapefile must have labelled sub-regions or strata, which must be enclosed within a single bounding box. We provide a stratified example design for 50 sites are selected from three counties in the state of North Carolina, U.S.A --- Gates ($n = 20$), Northampton ($n = 30$), and Hertford ($n = 10$).
+Stratified samples can be selected from a Halton Frame with **spbal**. To implement this design, the input shapefile must have labelled sub-regions or strata, which must be enclosed within a single bounding box. We provide a stratified example design for $50$ sites are selected from three counties in the state of North Carolina, U.S.A --- Gates ($n = 20$), Northampton ($n = 30$), and Hertford ($n = 10$).
 
 Load the shape file for the Gates, Northampton and Hertford regions.
 
-```{r results='hide', message=FALSE}
-set.seed(511)
+```{r HFex4a, results='hide', message=FALSE}
 strata <- c("Gates", "Northampton", "Hertford")
 n_strata <- c("Gates" = 20, "Northampton" = 30, "Hertford" = 10)
 shp_subset <- shp_file[shp_file[["NAME"]] %in% strata,]
@@ -727,13 +768,13 @@ shp_subset <- shp_file[shp_file[["NAME"]] %in% strata,]
 
 Define the bounding box for Gates, Northampton and Hertford using **spbal**.
 
-```{r results='hide', message=FALSE}
+```{r HFex5a, results='hide', message=FALSE}
 bb_strata <- spbal::BoundingBox(shapefile = shp_subset)
 ```
 
 Generate an approximately regular $B = 2^8 \times 3^5 = 256 \times 243$ Halton Frame for the Gates, Northampton and Hertford regions.
 
-```{r results='hide', message=FALSE, warning=FALSE}
+```{r HFex6a, results='hide', message=FALSE, warning=FALSE}
 set.seed(511)
 result9 <- spbal::HaltonFrame(shapefile = shp_subset,
                               N = n_strata,
@@ -743,9 +784,9 @@ result9 <- spbal::HaltonFrame(shapefile = shp_subset,
 Frame <- result9$hf.pts.shp
 ```
 
-Use the **getSample()** function to get 10 points from the Hertford region.
+Use the **getSample()** function to get $10$ points from the Hertford region.
 
-```{r warning=FALSE}
+```{r HFex7a, warning=FALSE}
 n_samples <- 10
 hertford_samp <- spbal::getSample(Frame, 
                                   n = n_samples, 
@@ -757,11 +798,11 @@ hertford_samp[1:10, c("NAME", "spbalSeqID", "x")]
 
 ### Panel Design from Halton Frame
 
-Panel designs from Halton Frames are also possible in **spbal**. The following call sets the last five elements from panel 1 as the first five elements in panel 2 and the last five elements from panel 2 as the first five elements in panel 3 (an over-lapping design with 50 unique sites). Each panel is a spatially balanced sample of size $n=20$, and the collection of sites from all panels is a spatially balanced sample of size $n= 50$.
+Panel designs from Halton Frames are also possible in **spbal**. The following call sets the last five elements from panel $1$ as the first five elements in panel $2$ and the last five elements from panel $2$ as the first five elements in panel $3$ (an over-lapping design with $50$ unique sites). Each panel is a spatially balanced sample of size $n = 20$, and the collection of sites from all panels is a spatially balanced sample of size $n = 50$.
 
 Generate an approximately regular $B = 2^8 \times 3^5 = 256 \times 243$ Halton Frame for Gates.
 
-```{r warning=FALSE, message=FALSE, results='hide'}
+```{r HFex8a, warning=FALSE, message=FALSE, results='hide'}
 set.seed(511)
 panels <- c(20, 20, 20)
 n_panel_overlap <- c(0, 5, 5)
@@ -775,7 +816,7 @@ HaltonFramePanel <- result10$hf.pts.shp
 
 The sites in panel 1 are obtained using the **getPanel()** function.
 
-```{r warning=FALSE, message=FALSE}
+```{r HFex9a, warning=FALSE, message=FALSE}
 panelid <- 1
 SitesPanel_1 <- spbal::getPanel(HaltonFramePanel, panelid)
 SitesPanel_1 <- SitesPanel_1$sample
@@ -792,18 +833,51 @@ HIP draws spatially balanced samples from point resources by partitioning the re
 
 ### spbal::HIP()
 
-Need to add function description, parameter descriptions.
+The __spbal::HIP()__ function supports the following input parameters:
+
++ __population__ A population of point pairs.
++ __n__ The number of points to draw from the population. Default $20$.
++ __iterations__ The levels of partitioning required. Default $7$.
++ __minRadius__ If specified, the minimum distance, in meters, allowed between sample points. This is applied to the *$overSample*.
++ __panels__ A list of integers that define the size of each panel in a
+non-overlapping panels design. The length of the list determines the number of
+panels required. The sum of the integers in the panels parameter will determine
+the total number of samples selected, __n__. The default value for __panels__ is NULL,
+this indicates that a non-overlapping panel design is not wanted.
++ __panel_overlap__ A list of integers that define the overlap into the previous
+panel. Is only used when the __panels__ parameter is not NULL. The default value for
+__panel_overlap__ is NULL. The length of __panel_overlap__ must be equal to the length
+of panels. The first value is always forced to zero as the first panel never overlaps any region.
++ __verbose__ A boolean, if you want to see any output printed to screen set to TRUE. Helpful if taking a
+long time. The default is FALSE i.e. no informational messages will be displayed.
+
+The __HIP()__ function returns a list containing five variables:
+
++ __Population__ 
++ __HaltonIndex__  
++ __sample__  
++ __overSample__  
++ __minRadius__ This result variable contains the sample created using the *minRadius* parameter. If the *minRadius* parameter is not specified then the *minRadius* variable will contain NULL.
+
+**Need to edit this**
+The sample points in *hf.pts.shp* are returned in the form of a simple feature collection of POINT objects. As well as having the features from the original shapefile, the following new attributes have been added:
+ 
+The sample points are returned in the form of a simple feature collection of POINT objects.
+They have the following attributes:
+
++ __SiteID__ A unique identifier, the Halton frame point order.
++ __spbalSeqID__ A unique identifier for every sample point.
 
 ### spbal::HIP() code example
 
 The following sample code is used to demonstrate the use of the __spbal::HIP()__ function. Here we are generating $20$ points from a population of $5,000$ (random) points with $7$ levels of partitioning ($4$ in the first dimension and $3$ in the second) to give $2^4$ * $3^3$ = $32 * 27$, resulting in $864$ boxes.
 
-```{r HIPex2a}
+```{r HIPex1a}
 # set random seed
-set.seed(511)
+base::set.seed(511)
 
 # define HIP parameters.
-pop <- matrix(runif(5000*2), nrow = 5000, ncol = 2)
+pop <- matrix(stats::runif(5000*2), nrow = 5000, ncol = 2)
 n <- 20
 its <- 7
 
@@ -826,9 +900,9 @@ HIPsample <- result$sample
 HIPsample
 ```
 
-The HIP over-sample has 432 sites (one site from each of the 432 boxes in the HIP partition).
+The HIP over-sample has $432$ sites (one site from each of the $432$ boxes in the HIP partition).
 
-```{r}
+```{r HIPex2a}
 HIPoverSample <- result$overSample
 HIPoverSample[1:10, c("geometry", "spbalSeqID")]
 
@@ -838,7 +912,7 @@ OverSampleSize
 
 The first $n$ points in **HIPoverSample** are identical to **HIPsample**.
 
-```{r }
+```{r HIPex3a}
 # compare the HIP sample and oversample, they should be the same.
 all.equal(HIPsample$geometry[1:n], HIPoverSample$geometry[1:n])
 ```

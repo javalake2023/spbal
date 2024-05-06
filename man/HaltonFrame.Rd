@@ -49,7 +49,7 @@ overlaps any region.}
 long time. Default is FALSE i.e. no informational messages are displayed.}
 }
 \value{
-A list containing five variables:
+Returns a list containing five variables:
 
 \itemize{
 \item \code{J} The number of grid cells. A list of 2 values that were used to generate this

@@ -36,7 +36,7 @@
 #' @param verbose Boolean if you want to see any output printed to screen. Helpful if taking a
 #' long time. Default is FALSE i.e. no informational messages are displayed.
 #'
-#' @return A list containing five variables:
+#' @return Returns a list containing five variables:
 #'
 #' \itemize{
 #' \item \code{J} The number of grid cells. A list of 2 values that were used to generate this

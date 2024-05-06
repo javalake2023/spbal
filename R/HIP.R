@@ -356,7 +356,7 @@ is_sf_points <- function(x) {
 #' of length $B$. The HIP sample is obtained by randomly drawing one point from
 #' each of the boxes numbered $1, 2, . . . , n$.
 #'
-#' @param population A population of points. (is the pop always pairs of points?).
+#' @param population A population of point pairs.
 #' @param n The number of points to draw from the population. Default 20.
 #' @param iterations The levels of partitioning required. Default 7.
 #' @param minRadius If specified, the minimum distance, in meters, allowed between sample
@@ -374,7 +374,7 @@ is_sf_points <- function(x) {
 #' @param verbose Boolean if you want to see any output printed to screen. Helpful if taking a
 #' long time. Default is FALSE i.e. no informational messages are displayed.
 #'
-#' @return A list containing the following five variables:
+#' @return Return a list containing the following five variables:
 #'
 #' \itemize{
 #' \item \code{Population} Fill this in.

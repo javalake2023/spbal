@@ -15,7 +15,7 @@ HIP(
 )
 }
 \arguments{
-\item{population}{A population of points. (is the pop always pairs of points?).}
+\item{population}{A population of point pairs.}
 
 \item{n}{The number of points to draw from the population. Default 20.}
 
@@ -40,7 +40,7 @@ overlaps any region.}
 long time. Default is FALSE i.e. no informational messages are displayed.}
 }
 \value{
-A list containing the following five variables:
+Return a list containing the following five variables:
 
 \itemize{
 \item \code{Population} Fill this in.
