@@ -20,7 +20,8 @@
 #' @param bases Co-prime base for the Halton Sequence. The default value is c(2, 3).
 #' @param shapefile A sf object. If the shapefile parameter is NULL then function
 #' spbal::HaltonFrameBase is called directly.
-#' @param boundingbox To be filled in.
+#' @param boundingbox Bounding box around the study area. If a bounding box is not supplied
+#' then spbal will generate a bounding box for the shapefile.
 #' @param panels A list of integers that define the size of each panel in a
 #' non-overlapping panels design. The length of the list determines the number of
 #' panels required. The sum of the integers in the panels parameter will determine
@@ -104,7 +105,12 @@ HaltonFrame <- function(N = 1,
     }
   }
 
-  # validate our parameters.
+  # validate the shapefile parameter.
+  if(base::is.null(shapefile)){
+    base::stop("spbal(HaltonFrame) The shapefile parameter must be used. Please specify a shapefile.")
+  }
+
+  # validate other parameters.
   validate_parameters("J", J)
   validate_parameters("bases", bases)
   if (!base::is.null(N)){
@@ -112,10 +118,9 @@ HaltonFrame <- function(N = 1,
   }
 
   # A bounding box must be specified.
+  # If user has not specified a bb then we will generate one.
   if(base::is.null(boundingbox)){
-    msg <- "spbal(HaltonFrame) A Bounding Box must be specified. Use spbal::BoundingBox first."
-    msgs <- base::sprintf(msg)
-    base::stop(msgs)
+    boundingbox <- spbal::BoundingBox(shapefile = shapefile)
   }
 
   if (base::is.null(seeds)){

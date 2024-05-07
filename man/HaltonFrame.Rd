@@ -24,7 +24,8 @@ HaltonFrame(
 
 \item{bases}{Co-prime base for the Halton Sequence. The default value is c(2, 3).}
 
-\item{boundingbox}{To be filled in.}
+\item{boundingbox}{Bounding box around the study area. If a bounding box is not supplied
+then spbal will generate a bounding box for the shapefile.}
 
 \item{shapefile}{A sf object. If the shapefile parameter is NULL then function
 spbal::HaltonFrameBase is called directly.}

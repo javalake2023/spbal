@@ -15,8 +15,8 @@
 #' @param shapefile Shape file as a polygon (sp or sf) to select sites for.
 #' @param n Number of sites to select. If using stratification it is a named vector containing
 #' sample sizes of each group.
-#' @param boundingbox Bounding box which defines the Master Sample. A bounding box must be
-#' supplied.
+#' @param boundingbox Bounding box around the study area. If a bounding box is not supplied
+#' then spbal will generate a bounding box for the shapefile.
 #' @param minRadius If specified, the minimum distance, in meters, allowed between sample
 #' points. This is applied to the $sample points. Points that meet the minRadius criteria
 #' are retuned in the minRadius output variable.
@@ -101,6 +101,7 @@ BAS <- function(shapefile = NULL,
   if(base::is.null(shapefile)){
     base::stop("spbal(BAS) The shapefile parameter must be used. Please specify a shapefile.")
   }
+
   shp_geometry <- sf::st_geometry_type(shapefile)
   if (!base::all(shp_geometry %in% c("MULTIPOLYGON", "POLYGON"))){
     msg <- "spbal(BAS) Unsupported geometry in shapefile, %s."
@@ -109,10 +110,9 @@ BAS <- function(shapefile = NULL,
   }
 
   # A bounding box must be specified.
+  # If user has not specified a bb then we will generate one.
   if(base::is.null(boundingbox)){
-    msg <- "spbal(BAS) A Bounding Box must be specified. Use spbal::BoundingBox first."
-    msgs <- base::sprintf(msg)
-    base::stop(msgs)
+    boundingbox <- spbal::BoundingBox(shapefile = shapefile)
   }
 
   if(!base::is.null(minRadius)){

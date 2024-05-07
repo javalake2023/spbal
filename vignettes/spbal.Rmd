@@ -1,6 +1,6 @@
 ---
 title: "spbal - Spatially Balanced Sampling"
-author: "Phil Davies"
+author: "spbal 1.0.0"
 date: "April 2024"
 
 always_allow_html: true
@@ -90,7 +90,7 @@ The __spbal::BAS()__ function supports the following input parameters:
 + __shapefile__ The shape file as a polygon (sp or sf) to select sites for.
 + __n__ The number of sites to select. If using stratification it is a named vector containing
 sample sizes of each group.
-+ __boundingbox__ The bounding box that surrounds the study areea. A bounding box must be supplied.
++ __boundingbox__ The Bounding box around the study area. If a bounding box is not supplied then **spbal** will generate a bounding box for the shapefile.
 + __minRadius__ If specified, the minimum distance, in meters, allowed between sample
 points. This is applied to the *$sample* points. Points that meet the __minRadius__ criteria
 are returned in the __minRadius__ output variable. The default value for __minRadius__.
@@ -106,7 +106,7 @@ of panels. The first value is always forced to zero as the first panel never ove
 + __stratum__ The name of a column in the data.frame attached to __shapefile__ that defines
 the strata of interest.
 + __seeds__ A vector of two seeds, __u1__ and __u2__. If not specified, the default is NULL and will
-be defined randomly using function __generateUVector__.
+be defined randomly.  
 + __verbose__ A boolean, if you want to see any output printed to screen set to TRUE. Helpful if taking a
 long time. The default is FALSE i.e. no informational messages will be displayed.
 
@@ -116,7 +116,7 @@ The __spbal::BAS()__ function returns a list containing three variables:
 + __seeds__ the __u1__ and __u2__ seeds used to generate the sample.
 + __minRadius__ containing points from __sample__ that meet the __minRadius__ criteria. If the __minRadius__ parameter is NULL then __minRadius__ will return NULL.
  
-The sample points are returned in the form of a simple feature collection of POINT objects.
+The *sample* points are returned in the form of a simple feature collection of POINT objects.
 They have the following attributes:
 
 + __SiteID__ A unique identifier for every sample point. This encodes the BAS order.
@@ -178,6 +178,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("red", "black"),
                      name = "Legend") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "Spatially balanced sample using a equal probability BAS design.",
@@ -233,9 +234,10 @@ ggplot() +
   ) +
  scale_color_manual(values = c("red","blue","black"),
                     name = "Legend") +  
-  labs(x = "Latitude",
-       y = "Longitude",
-       title = "BAS samples from the Gates county.")
+ theme_bw() +
+ labs(x = "Latitude",
+      y = "Longitude",
+      title = "BAS samples from the Gates county.")
 
 ```
 
@@ -311,6 +313,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("red", "blue", "green"),
                      name = "Legend") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "Stratified samples from BAS master samples.",
@@ -372,6 +375,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("red", "blue", "green"),
                      name = "Legend") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "Stratified samples from BAS master samples.",
@@ -437,7 +441,8 @@ ggplot() +
                  stat = "sf_coordinates"
   ) +
   scale_color_manual(values = c("red", "blue", "black"),
-                                     name = "Panels") +  
+                                     name = "Panels") + 
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "Panel Design from BAS Master Sample",
@@ -499,6 +504,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("red", "blue", "green"),
                      name = "Overlapped Panels") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "Spatially balanced sample using a overlapping panel \ndesign, of three panels, each containing 20 survey sites.",
@@ -518,7 +524,7 @@ The __spbal::HaltonFrame()__ function supports the following input parameters:
 + __N__ The number of points in the frame to generate.
 + __J__ The number of grid cells. A list of $2$ values. The default value is $c(3, 2)$.
 + __bases__ Co-prime base for the Halton Sequence. The default value is $c(2, 3)$.
-+ __boundingbox__ The bounding box that surrounds the study areea. A bounding box must be supplied.
++ __boundingbox__ The bounding box around the study area. If a bounding box is not supplied then **spbal** will generate a bounding box for the shapefile.
 + __panels__ A list of integers that define the size of each panel in a
 non-overlapping panels design. The length of the list determines the number of
 panels required. The sum of the integers in the panels parameter will determine
@@ -542,12 +548,11 @@ The __HaltonFrame()__ function returns a list containing five variables:
 + __bb__ The bounding box surrounding the study area.
 + __seeds__ The $u1$ and $u2$ seeds used to generate the sample.
 
-The sample points in *hf.pts.shp* are returned in the form of a simple feature collection of POINT objects. As well as having the features from the original shapefile, the following new attributes have been added:
- 
-** Need to verify this**
+The sample points in *hf.pts.shp* are returned in the form of a simple feature collection of POINT objects. It has the following features:
 
-+ __SiteID__ A unique identifier, the Halton frame point order.
-+ __spbalSeqID__ A unique identifier for every sample point.
++ __ID__ A unique identifier, the Halton frame point order.
++ __spbalSeqID__ A unique identifier, the study area point order.
++ __x__ The point geometry.
 
 ### spbal::HaltonFrame() code example
 
@@ -585,6 +590,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("red", "black"),
                      name = "Legend") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "A Halton grid, B = 2^3 * 3^2, over Gates, North Carolina, U.S.A.",
@@ -615,6 +621,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("red", "black"),
                      name = "Legend") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "A Halton frame, B = 2^3 * 3^2, over Gates, North Carolina, U.S.A.",
@@ -668,6 +675,7 @@ ggplot() +
   ) +
   scale_color_manual(values = c("black", "red"),
                      name = "Legend") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "First 25 sites from the Gates Halton Frame.")
@@ -747,6 +755,7 @@ ggplot() +
                                 "blue",
                                 "green"),
                      name = "Overlapped Panels") +  # Define color scale and legend title
+  theme_bw() +
   labs(x = "Latitude",
        y = "Longitude",
        title = "Halton Frame sample using a overlapping panel \ndesign, of three panels, each containing 20 survey sites.",
@@ -814,7 +823,7 @@ result10 <- spbal::HaltonFrame(shapefile = shp_gates,
 HaltonFramePanel <- result10$hf.pts.shp
 ```
 
-The sites in panel 1 are obtained using the **getPanel()** function.
+Now we obtain the sites in panel $1$ using the **getPanel()** function.
 
 ```{r HFex9a, warning=FALSE, message=FALSE}
 panelid <- 1
@@ -853,20 +862,11 @@ long time. The default is FALSE i.e. no informational messages will be displayed
 
 The __HIP()__ function returns a list containing five variables:
 
-+ __Population__ 
-+ __HaltonIndex__  
-+ __sample__  
-+ __overSample__  
++ __Population__ The original population.
++ __HaltonIndex__ The Halton index for the point. Points will be spread equally across all Halton indices.
++ __sample__ The population sample.
++ __overSample__ The *overSample* contains one point from each Halton box. All contiguous sub-samples from *oversample* are spatially balanced, and the first $n$ points are identical to *sample*.
 + __minRadius__ This result variable contains the sample created using the *minRadius* parameter. If the *minRadius* parameter is not specified then the *minRadius* variable will contain NULL.
-
-**Need to edit this**
-The sample points in *hf.pts.shp* are returned in the form of a simple feature collection of POINT objects. As well as having the features from the original shapefile, the following new attributes have been added:
- 
-The sample points are returned in the form of a simple feature collection of POINT objects.
-They have the following attributes:
-
-+ __SiteID__ A unique identifier, the Halton frame point order.
-+ __spbalSeqID__ A unique identifier for every sample point.
 
 ### spbal::HIP() code example
 
@@ -913,7 +913,7 @@ OverSampleSize
 The first $n$ points in **HIPoverSample** are identical to **HIPsample**.
 
 ```{r HIPex3a}
-# compare the HIP sample and oversample, they should be the same.
+# compare the HIP sample and oversample, they will be the same.
 all.equal(HIPsample$geometry[1:n], HIPoverSample$geometry[1:n])
 ```
 

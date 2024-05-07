@@ -22,8 +22,8 @@ BAS(
 \item{n}{Number of sites to select. If using stratification it is a named vector containing
 sample sizes of each group.}
 
-\item{boundingbox}{Bounding box which defines the Master Sample. A bounding box must be
-supplied.}
+\item{boundingbox}{Bounding box around the study area. If a bounding box is not supplied
+then spbal will generate a bounding box for the shapefile.}
 
 \item{minRadius}{If specified, the minimum distance, in meters, allowed between sample
 points. This is applied to the $sample points. Points that meet the minRadius criteria
