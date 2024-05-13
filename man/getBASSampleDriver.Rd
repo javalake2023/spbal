@@ -30,7 +30,7 @@ This function repeatedly calls function spbal::getBASSample to generate the BAS
 sample. Once the requested number of points within the intersection of the shapefile and the
 study area have been obtained, the sample and seeds are returned to the caller.
 }
-\details{
+\author{
 This function was written by Phil Davies based on origin code by Paul van Dam-Bates
 from the BASMasterSample package.
 }

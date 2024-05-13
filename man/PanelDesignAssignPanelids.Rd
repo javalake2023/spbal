@@ -49,7 +49,7 @@ panels and panel_overlap parameters.
 This function assigns panel id's to each sample based on values in the
 panels and panel_overlap parameters. This is an internal only function.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

@@ -20,7 +20,7 @@ sf spatial points with projection defined in bb.
 Given some coordinates on [0,1)x[0,1), shift and scale them to the bounding box, and then rotate
 them given the bounding box rotation defined by the Master Sample.
 }
-\details{
+\author{
 This function was first written by Paul van Dam-Bates for the
 package BASMasterSample.
 }

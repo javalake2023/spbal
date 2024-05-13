@@ -6,7 +6,7 @@
 #'
 #' @description Generate a rotation matrix for rotating objects later.
 #'
-#' @details This function was first written by Paul van Dam-Bates for the
+#' @author This function was first written by Paul van Dam-Bates for the
 #' package BASMasterSample.
 #'
 #' @param a radians of rotation.
@@ -26,7 +26,7 @@ rot <- function(a){
 #' @description Given some coordinates on \[0,1)x\[0,1), shift and scale them to the bounding box, and then rotate
 #' them given the bounding box rotation defined by the Master Sample.
 #'
-#' @details This function was first written by Paul van Dam-Bates for the
+#' @author This function was first written by Paul van Dam-Bates for the
 #' package BASMasterSample.
 #'
 #' @param coords Output from RSHalton() to be converted to the spatial surface of interest.

@@ -7,7 +7,7 @@
 #'
 #' @description Compute the log of a to base b.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param a Integer to find the log to base b of.
 #' @param b Base
@@ -25,7 +25,7 @@ NULL
 #' This function uses a trick to avoid using the modulo operator directly, which can be slow
 #' for large values of a and n.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param a The input value of type T. This is a NumericVector.
 #' @param n The divisor of type int.
@@ -41,7 +41,7 @@ NULL
 #'
 #' @description Need to fill in.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param vec A NumericVector that may contain duplicate values.
 #'
@@ -57,7 +57,7 @@ NULL
 #' @description For efficiency, this function can generate points along a random start
 #' Halton Sequence for a predefined Halton.
 #'
-#' @details This function was first written in R by Blair Robertson, subsequently it was
+#' @author This function was first written in R by Blair Robertson, subsequently it was
 #' re-written in C/C++ by Phil Davies.
 #'
 #' @param n Number of points required.
@@ -86,8 +86,8 @@ cppBASpts <- function(n = 10L, seeds = as.integer( c()), bases = as.numeric( c()
 #' @description For efficiency, this function can generate points along a random start
 #' Halton Sequence for a predefined Halton.
 #'
-#' @details This function was first written in R by Paul van Dam-Bates for the
-#' package BASMasterSample. Subsequently it was written in C/C++ by Phil Davies.
+#' @author This function was first written in R by Blair Robertson, subsequently it was written
+#' in C/C++ by Phil Davies.
 #'
 #' @param n Number of points required
 #' @param bases Co-prime base for the Halton Sequence

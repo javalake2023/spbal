@@ -9,7 +9,7 @@
 #' is also needed, which can be easily increased or decreased within spbal for master sampling
 #' applications
 #'
-#' @details This function was first written by Paul van Dam-Bates for the
+#' @author This function was first written by Paul van Dam-Bates for the
 #' package BASMasterSample and later simplified by Phil Davies.
 #'
 #' @param shapefile Shape file as a polygon (sp or sf) to select sites for.
@@ -96,6 +96,9 @@ BAS <- function(shapefile = NULL,
                 seeds = NULL,
                 verbose = FALSE){
 
+  # initialise.
+  bb.new <- NULL
+
   # validate shapefile and other BAS parameters.
   # validate the shapefile parameter.
   if(base::is.null(shapefile)){
@@ -113,6 +116,7 @@ BAS <- function(shapefile = NULL,
   # If user has not specified a bb then we will generate one.
   if(base::is.null(boundingbox)){
     boundingbox <- spbal::BoundingBox(shapefile = shapefile)
+    bb.new <- boundingbox
   }
 
   if(!base::is.null(minRadius)){
@@ -189,6 +193,7 @@ BAS <- function(shapefile = NULL,
   result <- base::list(sample    = sample,
                        seed      = seeds,
                        minRadius = S,
+                       bb        = bb.new,
                        Count     = Count)
   return(result)
 }
@@ -202,7 +207,7 @@ BAS <- function(shapefile = NULL,
 #' sample. Once the requested number of points within the intersection of the shapefile and the
 #' study area have been obtained, the sample and seeds are returned to the caller.
 #'
-#' @details This function was written by Phil Davies based on origin code by Paul van Dam-Bates
+#' @author This function was written by Phil Davies based on origin code by Paul van Dam-Bates
 #' from the BASMasterSample package.
 #'
 #' @param shapefile Shape file as a polygon (sp or sf) to select sites for.
@@ -299,7 +304,7 @@ getBASSampleDriver <- function(shapefile, bb, n, seeds, verbose = FALSE){
 #' @description This function is repeatedly called from function spbal::getBASSampleDriver
 #' to generate a BAS sample.
 #'
-#' @details This function was written by Phil Davies.
+#' @author This function was written by Phil Davies.
 #'
 #' @param shapefile Shape file as a polygon (sp or sf) to select sites for.
 #' @param bb Bounding box which defines the area around the study area. A bounding box must be

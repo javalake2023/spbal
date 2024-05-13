@@ -11,7 +11,7 @@
 #' function is used without a random rotation, we recommend running it until
 #' the first master sample point does indeed fall within the largest scale of the master sample use.
 #'
-#' @details This function was first written by Paul van Dam-Bates for the
+#' @author This function was first written by Paul van Dam-Bates for the
 #' package BASMasterSample and later ported to this package, spbal.
 #'
 #' @param shapefile Spatial feature that defines the boundary of the area to define a bounding

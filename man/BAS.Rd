@@ -73,10 +73,6 @@ spbal requires a study region shapefile and the region’s bounding box. An init
 is also needed, which can be easily increased or decreased within spbal for master sampling
 applications
 }
-\details{
-This function was first written by Paul van Dam-Bates for the
-package BASMasterSample and later simplified by Phil Davies.
-}
 \examples{
 # Equal probability BAS sample ----------------------------------------------
 
@@ -109,4 +105,8 @@ BAS50[1:3,]
 # Check, first n_samples points in both samples must be the same.
 all.equal(BAS20$geometry, BAS50$geometry[1:20])
 
+}
+\author{
+This function was first written by Paul van Dam-Bates for the
+package BASMasterSample and later simplified by Phil Davies.
 }

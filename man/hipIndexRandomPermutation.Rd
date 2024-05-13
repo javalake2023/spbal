@@ -12,11 +12,16 @@ hipIndexRandomPermutation(its)
 \value{
 A list containing the following variables:
 permHaltonIndex - some output.
+
+\itemize{
+\item \code{permHaltonIndex} Fill this in.
+\item \code{B} Fill this in.
+}
 }
 \description{
 A description.
 }
-\details{
-The details.
+\author{
+Phil Davies, Blair Robertson.
 }
 \keyword{internal}

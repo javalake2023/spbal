@@ -32,7 +32,7 @@ to generate the Halton frame sample. This function selects the first point at ra
 points in the study area. This point and the seeds used to generate the sample are returned to
 the caller.
 }
-\details{
+\author{
 This function was written by Phil Davies.
 }
 \keyword{internal}

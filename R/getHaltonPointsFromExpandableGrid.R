@@ -10,7 +10,7 @@
 #' until the requested number of points are found. The points and the seeds used to generate
 #' the sample are returned to the caller.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param shapefile Shape file as a polygon (sp or sf) of the study area(s).
 #' @param N Number of sites to select. If using stratification it is a named vector containing

@@ -28,10 +28,6 @@ BC west coast. However, with a random rotation, we are able to ignore that detai
 function is used without a random rotation, we recommend running it until
 the first master sample point does indeed fall within the largest scale of the master sample use.
 }
-\details{
-This function was first written by Paul van Dam-Bates for the
-package BASMasterSample and later ported to this package, spbal.
-}
 \examples{
 # Create a bounding box for the Gates, North Carolina study area -------------
 # Use the North Carolina shapefile supplied in the sf R package.
@@ -41,4 +37,8 @@ shp_gates <- shp_file[shp_file$NAME == "Gates",]
 bb <- spbal::BoundingBox(shapefile = shp_gates)
 bb
 
+}
+\author{
+This function was first written by Paul van Dam-Bates for the
+package BASMasterSample and later ported to this package, spbal.
 }

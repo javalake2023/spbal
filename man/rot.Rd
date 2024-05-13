@@ -15,7 +15,7 @@ Matrix
 \description{
 Generate a rotation matrix for rotating objects later.
 }
-\details{
+\author{
 This function was first written by Paul van Dam-Bates for the
 package BASMasterSample.
 }

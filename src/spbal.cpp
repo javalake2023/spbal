@@ -23,7 +23,7 @@ using namespace Rcpp;
 //'
 //' @description Compute the log of a to base b.
 //'
-//' @details This function was written by Phil Davies.
+//' @author Phil Davies.
 //'
 //' @param a Integer to find the log to base b of.
 //' @param b Base
@@ -45,7 +45,7 @@ double log_a_to_base_b(long long a, int b){
 //' This function uses a trick to avoid using the modulo operator directly, which can be slow
 //' for large values of a and n.
 //'
-//' @details This function was written by Phil Davies.
+//' @author Phil Davies.
 //'
 //' @param a The input value of type T. This is a NumericVector.
 //' @param n The divisor of type int.
@@ -65,7 +65,7 @@ T mod(T a, int n){
 //'
 //' @description Need to fill in.
 //'
-//' @details This function was written by Phil Davies.
+//' @author Phil Davies.
 //'
 //' @param vec A NumericVector that may contain duplicate values.
 //'
@@ -88,7 +88,7 @@ Rcpp::NumericVector removeDuplicates(Rcpp::NumericVector vec){
 //' @description For efficiency, this function can generate points along a random start
 //' Halton Sequence for a predefined Halton.
 //'
-//' @details This function was first written in R by Blair Robertson, subsequently it was
+//' @author This function was first written in R by Blair Robertson, subsequently it was
 //' re-written in C/C++ by Phil Davies.
 //'
 //' @param n Number of points required.
@@ -171,8 +171,8 @@ Rcpp::List cppBASpts(int n = 10,
 //' @description For efficiency, this function can generate points along a random start
 //' Halton Sequence for a predefined Halton.
 //'
-//' @details This function was first written in R by Paul van Dam-Bates for the
-//' package BASMasterSample. Subsequently it was written in C/C++ by Phil Davies.
+//' @author This function was first written in R by Blair Robertson, subsequently it was written
+//' in C/C++ by Phil Davies.
 //'
 //' @param n Number of points required
 //' @param bases Co-prime base for the Halton Sequence
@@ -279,3 +279,4 @@ Rcpp::List cppRSHalton_br(int n = 10,
                             _["xklist"] = xklist,
                             _["seeds"]  = seeds);
 }
+

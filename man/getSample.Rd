@@ -29,9 +29,6 @@ A list containing the following variable:
 \description{
 A description of this useful function.
 }
-\details{
-This function was written by Phil Davies.
-}
 \examples{
 # Draw a spatially balanced sample of n = 25 from a Halton Frame over Gates --
 
@@ -56,4 +53,7 @@ FrameSample <-getSample(shapefile = Frame,
 FrameSample <- FrameSample$sample
 FrameSample
 
+}
+\author{
+Phil Davies.
 }

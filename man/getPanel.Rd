@@ -21,9 +21,6 @@ This is the main function for selecting sites using the BAS master
 sample. It assumes that you have already defined the master sample using the
 BoundingBox() function or will be selecting a marine master sample site in BC.
 }
-\details{
-This function was written by Phil Davies.
-}
 \examples{
 # Halton frame overlapping panel design showing use of getPanel.
 
@@ -55,4 +52,7 @@ samp3
 panelid <- 1
 olPanel_1 <- spbal::getPanel(samp3, panelid)
 
+}
+\author{
+Phil Davies.
 }

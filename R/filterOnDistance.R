@@ -13,6 +13,8 @@
 #'
 #' The distances are calculated as great circles over an oblate spheroid and the units are meters.
 #'
+#' @author Phil Davies.
+#'
 #' @details Key points:
 #'
 #' \itemize{

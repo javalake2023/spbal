@@ -6,7 +6,7 @@
 #'
 #' @description A description.
 #'
-#' @details The details.
+#' @author Phil Davies, Blair Robertson.
 #'
 #' @param x1pts A parm.
 #' @param HaltonIndex Halton indices for all points in x1Hpts.
@@ -14,8 +14,7 @@
 #' @param xlevel A parm.
 #' @param x1Hpts A parm.
 #'
-#' @return A list containing the following variables:
-#'         HaltonIndex - Updated Halton indices for all points in x1Hpts.
+#' @return A variable called HaltonIndex, the updated Halton indices for all points in x1Hpts.
 #'
 #' @keywords internal
 hipX1split <- function(x1pts, HaltonIndex, BoxIndex, xlevel, x1Hpts) {
@@ -59,7 +58,7 @@ hipX1split <- function(x1pts, HaltonIndex, BoxIndex, xlevel, x1Hpts) {
 #'
 #' @description A description.
 #'
-#' @details The details.
+#' @author Phil Davies, Blair Robertson.
 #'
 #' @param x2pts A parm.
 #' @param HaltonIndex Halton indices for all points in x2Hpts.
@@ -67,8 +66,7 @@ hipX1split <- function(x1pts, HaltonIndex, BoxIndex, xlevel, x1Hpts) {
 #' @param xlevel A parm.
 #' @param x2Hpts A parm.
 #'
-#' @return A list containing the following variables:
-#'         HaltonIndex - Updated Halton indices for all points in x2Hpts.
+#' @return A variable called HaltonIndex, the updated Halton indices for all points in x2Hpts.
 #'
 #' @keywords internal
 
@@ -129,14 +127,17 @@ hipX2split <- function(x2pts, HaltonIndex, BoxIndex, xlevel, x2Hpts) {
 #'
 #' @description A description.
 #'
-#' @details The details.
+#' @author Phil Davies, Blair Robertson.
 #'
 #' @param pts A parm.
 #' @param its A parm.
 #'
 #' @return A list containing the following variables:
-#'         ptsIndex    - Some output.
-#'         HaltonIndex - Updated Halton indices for all points in pts.
+#'
+#' \itemize{
+#' \item \code{ptsIndex} Fill this in.
+#' \item \code{HaltonIndex} Updated Halton indices for all points in pts.
+#' }
 #'
 #' @keywords internal
 
@@ -144,10 +145,7 @@ hipPartition <- function(pts, its) {
   # Initialize
   N <- base::nrow(pts)
   pts <- base::cbind(pts, 1:N)
-  # Assuming HaltonPts is a function that generates Halton points.
-  #Hpts <- HaltonPts(N)
-  #Hpts <- spbal::cppRSHalton(N)
-  #Hpts <- Hpts[,2:3]
+  # Generate N Halton points.
   res <- cppRSHalton_br(n = N)
   Hpts <- res$pts
   HaltonIndex <- base::rep(0, N)
@@ -178,7 +176,6 @@ hipPartition <- function(pts, its) {
 
     # Remove discarded points
     TF <- base::which(!base::is.na(HaltonIndex))
-    #browser()
     HaltonIndex <- HaltonIndex[TF]
     pts <- pts[TF,]
   }
@@ -194,12 +191,17 @@ hipPartition <- function(pts, its) {
 #'
 #' @description A description.
 #'
-#' @details The details.
+#' @author Phil Davies, Blair Robertson.
 #'
 #' @param its A parm.
 #'
 #' @return A list containing the following variables:
 #'         permHaltonIndex - some output.
+#'
+#' \itemize{
+#' \item \code{permHaltonIndex} Fill this in.
+#' \item \code{B} Fill this in.
+#' }
 #'
 #' @keywords internal
 
@@ -324,6 +326,8 @@ hipIndexRandomPermutation <- function(its) {
 #' @description Tests if the object passed to the function is a sf points object or not.
 #' An internal only function.
 #'
+#' @author Phil Davies, Blair Robertson.
+#'
 #' @details Detect if an object is a sf points object or not.
 #'
 #' @param x A probable sf points object.
@@ -348,6 +352,8 @@ is_sf_points <- function(x) {
 #' less than the population size. The **iterations parameter** also defines the
 #' number of units available in the HIP over-sample, where the over-sample contains
 #' one unit from each box in the HIP partition.
+#'
+#' @author Phil Davies, Blair Robertson.
 #'
 #' @details Halton iterative partitioning (HIP) extends Basic acceptance
 #' sampling (BAS) to point resources. It partitions the resource into $B ≥ n$

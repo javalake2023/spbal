@@ -25,7 +25,7 @@ in BAS order and \code{$seeds}, the u1 and u2 seeds used to generate the sample.
 This function is repeatedly called from function spbal::getBASSampleDriver
 to generate a BAS sample.
 }
-\details{
+\author{
 This function was written by Phil Davies.
 }
 \keyword{internal}

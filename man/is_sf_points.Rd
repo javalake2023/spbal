@@ -19,4 +19,7 @@ An internal only function.
 \details{
 Detect if an object is a sf points object or not.
 }
+\author{
+Phil Davies, Blair Robertson.
+}
 \keyword{internal}

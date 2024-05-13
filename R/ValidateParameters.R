@@ -7,7 +7,7 @@
 #' @description This function is used to validate parameters passed to
 #' all spbal functions that may be called by a user.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param parm The parameter to be validated.
 #' @param parm_value The value of the parameter to be validated. Must be defined as a list.

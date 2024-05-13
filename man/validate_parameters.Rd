@@ -19,7 +19,7 @@ a parameter fails validation further execution is terminated using the STOP func
 This function is used to validate parameters passed to
 all spbal functions that may be called by a user.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

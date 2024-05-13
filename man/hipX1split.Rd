@@ -18,13 +18,12 @@ hipX1split(x1pts, HaltonIndex, BoxIndex, xlevel, x1Hpts)
 \item{x1Hpts}{A parm.}
 }
 \value{
-A list containing the following variables:
-HaltonIndex - Updated Halton indices for all points in x1Hpts.
+A variable called HaltonIndex, the updated Halton indices for all points in x1Hpts.
 }
 \description{
 A description.
 }
-\details{
-The details.
+\author{
+Phil Davies, Blair Robertson.
 }
 \keyword{internal}

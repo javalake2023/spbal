@@ -14,7 +14,7 @@ The log of a to base b.
 \description{
 Compute the log of a to base b.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

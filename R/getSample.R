@@ -6,7 +6,7 @@
 #'
 #' @description A description of this useful function.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param shapefile A MULTIPOINT or POINT object from where to take the sample.
 #' @param n The number of sample points to return.

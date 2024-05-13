@@ -16,7 +16,7 @@ Computes the remainder of dividing a by n using the modulo operator.
 This function uses a trick to avoid using the modulo operator directly, which can be slow
 for large values of a and n.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

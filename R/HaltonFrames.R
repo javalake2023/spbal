@@ -13,7 +13,7 @@
 #' where samples of consecutive frame points are spatially balanced. To generate Halton Frames,
 #' spbal requires a study region \code{shapefile} and the region’s \code{bounding box}.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param N The number of points in the frame to generate.
 #' @param J The number of grid cells. A list of 2 values. The default value is c(3, 2).

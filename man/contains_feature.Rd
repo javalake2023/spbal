@@ -21,7 +21,7 @@ feature_name. Otherwise FALSE is returned.
 Used to check if a simple file object contains a feature. This
 is an internal only function.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

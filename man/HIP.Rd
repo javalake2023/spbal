@@ -99,3 +99,6 @@ HIPsample <- result$sample
 HIPsample
 
 }
+\author{
+Phil Davies, Blair Robertson.
+}

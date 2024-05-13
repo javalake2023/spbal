@@ -53,7 +53,7 @@ the frame is expanded, and spbal::getHaltonFrame is called again. This process i
 until the requested number of points are found. The points and the seeds used to generate
 the sample are returned to the caller.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

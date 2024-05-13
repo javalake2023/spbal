@@ -7,7 +7,7 @@
 #' @description Used to check if a simple file object contains a feature. This
 #' is an internal only function.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param sf_object Simple file object that we want to verify if it contains
 #' a feature called feature_name.
@@ -37,7 +37,7 @@ contains_feature <- function(sf_object, feature_name) {
 #' sample. It assumes that you have already defined the master sample using the
 #' BoundingBox() function or will be selecting a marine master sample site in BC.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param shapefile Shape file as a polygon (sp or sf) containing a sample that
 #' contains a feature column named panel_id.

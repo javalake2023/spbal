@@ -8,7 +8,7 @@
 #' parameters. The panel_design flag is set TRUE when the panels and/or panel_overlap
 #' parameters are not NULL. This is an internal only function.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param panels A list of integers that define the size of each panel in a
 #' non-overlapping panels design. The length of the list determines the number of
@@ -81,7 +81,7 @@ ValidatePanelDesign <- function(panels, panel_overlap, n){
 #' @description This function assigns panel id's to each sample based on values in the
 #' panels and panel_overlap parameters. This is an internal only function.
 #'
-#' @details This function was written by Phil Davies.
+#' @author Phil Davies.
 #'
 #' @param smp The shapefile for the region under study.
 #' @param panels A list of integers that defines the size of each panel in a

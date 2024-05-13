@@ -75,9 +75,6 @@ Halton frames discretize an areal resource into a spatially ordered grid,
 where samples of consecutive frame points are spatially balanced. To generate Halton Frames,
 spbal requires a study region \code{shapefile} and the region’s \code{bounding box}.
 }
-\details{
-This function was written by Phil Davies.
-}
 \examples{
 # we discretize the Gates study region into a coarse grid using
 # B = 2^{J_1} * 3^{J_2}= (2^3) * (3^2) (9 by 8 grid) ------------------------
@@ -100,4 +97,7 @@ Frame
 Grid <- result6$hg.pts.shp
 Grid
 
+}
+\author{
+Phil Davies.
 }

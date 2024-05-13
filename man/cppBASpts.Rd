@@ -27,10 +27,6 @@ Matrix with the columns, order of points, x in [0,1) and y in [0,1)
 For efficiency, this function can generate points along a random start
 Halton Sequence for a predefined Halton.
 }
-\details{
-This function was first written in R by Blair Robertson, subsequently it was
-re-written in C/C++ by Phil Davies.
-}
 \examples{
 # First 10 points in the Halton Sequence for base 2,3
 spbal::cppBASpts(n = 10)
@@ -38,4 +34,8 @@ spbal::cppBASpts(n = 10)
 # starting point at the 15th and 22nd index.
 spbal::cppBASpts(n = 10, seeds = c(14, 21))
 
+}
+\author{
+This function was first written in R by Blair Robertson, subsequently it was
+re-written in C/C++ by Phil Davies.
 }

@@ -9,7 +9,7 @@
 #' points in the study area. This point and the seeds used to generate the sample are returned to
 #' the caller.
 #'
-#' @details This function was written by Phil Davies.
+#' @author This function was written by Phil Davies.
 #'
 #' @param shapefile Shape file as a polygon (sp or sf) of the study area(s).
 #' @param seeds A vector of 2 seeds, u1 and u2. If not specified, the default is NULL and will

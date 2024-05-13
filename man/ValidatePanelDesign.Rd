@@ -38,7 +38,7 @@ This function is used to validate the panels and panel_overlap
 parameters. The panel_design flag is set TRUE when the panels and/or panel_overlap
 parameters are not NULL. This is an internal only function.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

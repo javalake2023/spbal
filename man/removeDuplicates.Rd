@@ -12,7 +12,7 @@ A NumericVector that is sorted with duplicates removed.
 \description{
 Need to fill in.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}

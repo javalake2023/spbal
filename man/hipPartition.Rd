@@ -13,13 +13,16 @@ hipPartition(pts, its)
 }
 \value{
 A list containing the following variables:
-ptsIndex    - Some output.
-HaltonIndex - Updated Halton indices for all points in pts.
+
+\itemize{
+\item \code{ptsIndex} Fill this in.
+\item \code{HaltonIndex} Updated Halton indices for all points in pts.
+}
 }
 \description{
 A description.
 }
-\details{
-The details.
+\author{
+Phil Davies, Blair Robertson.
 }
 \keyword{internal}

@@ -14,7 +14,7 @@ This function generates two seeds, u1 and u2, in the range 0 to 2^11 and 0 to 3^
 respectively. These are returned to the caller in the form of a vector. This is for internal
 use only.
 }
-\details{
-This function was written by Phil Davies.
+\author{
+Phil Davies.
 }
 \keyword{internal}
