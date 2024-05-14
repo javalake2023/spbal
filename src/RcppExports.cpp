@@ -37,10 +37,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// cppBASptsIndexed
+Rcpp::List cppBASptsIndexed(int n, Rcpp::IntegerVector seeds, Rcpp::NumericVector bases, Rcpp::IntegerVector boxes, bool verbose);
+RcppExport SEXP _spbal_cppBASptsIndexed(SEXP nSEXP, SEXP seedsSEXP, SEXP basesSEXP, SEXP boxesSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type seeds(seedsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type bases(basesSEXP);
+    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type boxes(boxesSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(cppBASptsIndexed(n, seeds, bases, boxes, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_spbal_cppBASpts", (DL_FUNC) &_spbal_cppBASpts, 4},
     {"_spbal_cppRSHalton_br", (DL_FUNC) &_spbal_cppRSHalton_br, 4},
+    {"_spbal_cppBASptsIndexed", (DL_FUNC) &_spbal_cppBASptsIndexed, 5},
     {NULL, NULL, 0}
 };
 

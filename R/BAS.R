@@ -201,7 +201,7 @@ BAS <- function(shapefile = NULL,
 
 #' @name getBASSampleDriver
 #'
-#' @title Title.
+#' @title Manage BAS sampling.
 #'
 #' @description This function repeatedly calls function spbal::getBASSample to generate the BAS
 #' sample. Once the requested number of points within the intersection of the shapefile and the
@@ -210,7 +210,7 @@ BAS <- function(shapefile = NULL,
 #' @author This function was written by Phil Davies based on origin code by Paul van Dam-Bates
 #' from the BASMasterSample package.
 #'
-#' @param shapefile Shape file as a polygon (sp or sf) to select sites for.
+#' @param shapefile sf shape file as a polygon to select sites from.
 #' @param bb Bounding box which defines the area around the study area. A bounding box must be
 #' supplied.
 #' @param n Number of sites to select. If using stratification it is a named vector containing
@@ -252,22 +252,40 @@ getBASSampleDriver <- function(shapefile, bb, n, seeds, verbose = FALSE){
     seedshift <- seeds
   } # end is.null(seeds)
 
+  ## Check bounding box and find efficient Halton indices (boxes)
+  BASInfo <- setBASIndex(shapefile, bb, seedshift)
+  boxes <- BASInfo$boxes
+
   # number of samples required.
   draw <- n * 4
   # just the first point so far, need n.
-  num_samples <- 1
+  num_samples <- 0
+  n_samples <- 0
+
   # count number of times we call spbal::getBASSample.
   call.getBASSample.cnt <- 0
   # keep generating BAS samples until we find n sample points in the study area.
   while(num_samples < n){
     # double the number of points to find to try and reduce number of loops.
     draw <- draw * 2
+
+    boxes <- boxes + BASInfo$B*call.getBASSample.cnt  ## Go to next set of boxes if repeating loop.
+    ## Create indices repeating every Bth for each box until a full draw is taken.
+    ii <- 1
+    while( base::length(boxes) < draw ){
+      boxes <- base::c(boxes, BASInfo$boxes + ii*BASInfo$B)
+      ii <- ii+1
+    }
+
     # go get sample.
-    pts.sample <- getBASSample(shapefile = shapefile, bb = bb , n = draw, seeds = seedshift)
-    # get sample points.
-    ret_sample <- pts.sample$sample
-    # how many samples do we have?
-    n_samples <- base::length(ret_sample$SiteID)
+    pts.sample <- getBASSample(shapefile = shapefile, bb = bb , n = draw, seeds = seedshift, boxes = boxes)
+    n_samples <- base::length(pts.sample$sample$SiteID)
+
+    ## First time create ret_sample
+    if(n_samples > 0 & num_samples == 0) ret_sample <- pts.sample$sample
+
+    # If some samples are found, and samples were previously found, bind them.
+    if(n_samples > 0 & num_samples > 0) ret_sample <- rbind(ret_sample, pts.sample$sample)
 
     if(verbose){
       msg <- "spbal(getBASSampleDriver) after getBASSample n_samples = %s. num_samples = %s"
@@ -275,7 +293,7 @@ getBASSampleDriver <- function(shapefile, bb, n, seeds, verbose = FALSE){
       base::message(msgs)
     }
     call.getBASSample.cnt <- call.getBASSample.cnt + 1
-    num_samples <- n_samples
+    num_samples <- num_samples + n_samples  ## New sampled added.
   } # end while num_samples < n
 
   if(verbose){
@@ -312,12 +330,13 @@ getBASSampleDriver <- function(shapefile, bb, n, seeds, verbose = FALSE){
 #' @param n Number of sites to select. If using stratification it is a named vector containing
 #' sample sizes of each group.
 #' @param seeds A vector of 2 seeds, u1 and u2. seeds must have a value when this function is called.
+#' @param boxes A vector of integers for which points along the Halton random starting point to sample from.
 #'
 #' @return A list containing two variables, \code{$sample} containing locations in the BAS sample,
 #' in BAS order and \code{$seeds}, the u1 and u2 seeds used to generate the sample.
 #'
 #' @keywords internal
-getBASSample <- function(shapefile, bb, n, seeds){
+getBASSample <- function(shapefile, bb, n, seeds, boxes = NULL){
 
   if(base::is.null(seeds)){
     msg <- "spbal(getBASSample) The seeds parameter must not be NULL."
@@ -326,21 +345,26 @@ getBASSample <- function(shapefile, bb, n, seeds){
   }
   seedshift <- seeds
 
+  if(is.null(boxes)) {
+    siteid <- base::seq(from = 1, to = n, by = 1)
+    boxes <- siteid
+  }else{
+    siteid <- boxes
+  }
   # Scale and shift Halton to fit into bounding box
   bb.bounds <- sf::st_bbox(bb)
   scale.bas <- bb.bounds[3:4] - bb.bounds[1:2]
   shift.bas <- bb.bounds[1:2]
 
+  bases <- base::c(2, 3)
+
   # go generate n Halton points.
-  #res <- cppRSHalton_br(n = n, seeds = seedshift, bases = base::c(2, 3))
-  res <- cppBASpts(n = n, seeds = seedshift, bases = base::c(2, 3))
+  res <- cppBASptsIndexed(n = n, seeds = seeds, bases = bases, boxes = boxes)
   pts <- res$pts
-  siteid <- base::seq(from = 1, to = n, by = 1)
-  pts <- base::cbind(siteid, pts)
 
-  xy <- base::cbind(pts[,2]*scale.bas[1] + shift.bas[1], pts[,3]*scale.bas[2] + shift.bas[2])
+  xy <- base::cbind(pts[,1]*scale.bas[1] + shift.bas[1], pts[,2]*scale.bas[2] + shift.bas[2])
 
-  pts.coord <- sf::st_as_sf(base::data.frame(SiteID = pts[,1], xy), coords = c(2, 3))
+  pts.coord <- sf::st_as_sf(base::data.frame(SiteID = siteid, xy), coords = base::c(2, 3))
 
   sf::st_crs(pts.coord) <- sf::st_crs(bb)
   # find the intersection. Generates the same as sf::st_intersection(pts.coord, shapefile)
@@ -350,5 +374,80 @@ getBASSample <- function(shapefile, bb, n, seeds){
   result <- base::list(sample = pts.intersect,
                        seeds  = seedshift)
   return(result)
+}
+
+#' @name setBASIndex
+#'
+#' @title Finds a set of Halton indices that will create BAS points within a shape bounding box.
+#'
+#' @description This function is designed to be called internally for efficiency in site selection.
+#'
+#' @details To be used when doing a Master Sample and the bounding box of the greater frame is potentially much
+#' larger than the the polygon being sampled. In this case, we don't want to generate points across the
+#' entire larger bounding box region and then clip them. Instead, we can make use of the Halton sequence
+#' and only generate BAS points near to the shape being sampled. This function finds returns those indices.
+#'
+#' @param shapefile Shape file as a polygon (sp or sf) to select sites for.
+#' @param bb Bounding box which defines the area around the study area. A bounding box must be
+#' supplied.
+#' @param seeds A vector of 2 seeds, u1 and u2. seeds must have a value when this function is called.
+#'
+#' @return A list containing two variables, \code{$boxes} containing indices of the BAS sample that fall
+#' into the bounding box, \code{$J}, the number of subdivision powers taken to find those boxes, \code{$B},
+#' the number of boxes that the indices relate to \code{(1-B)}, \code{$xlim}, the ylimit of the
+#' bounding box of the shapefile, shifted to the \code{base[1]^J[1]} coordinates on the unit box
+#' \code{[0,1)}, \code{$ylim}, the ylimit of the bounding box of the shapefile, shifted to the
+#' \code{base[2]^J[2]} coordinates on the unit box \code{[0,1)}.
+#'
+#' @keywords internal
+setBASIndex <- function(shapefile, bb, seeds = base::c(0,0)){
+
+  # Scale and shift Halton to fit into bounding box
+  bb.bounds <- sf::st_bbox(bb)
+  inner.bb <- sf::st_bbox(shapefile)
+
+  ## Check if bb and st_bbox are equivalent, return if they are for efficiency.
+  if( base::all(inner.bb == bb.bounds) ) return(base::list(boxes = 1, B = 1, J = base::c(0, 0), xlim = base::c(0, 1), ylim = base::c(0, 1)))
+
+  scale.bas <- bb.bounds[3:4] - bb.bounds[1:2]
+  shift.bas <- bb.bounds[1:2]
+  bases <- base::c(2, 3)
+  inner.pts.scaled <- base::cbind((inner.bb[base::c('xmin', 'xmax')] - shift.bas[1])/scale.bas[1],
+                                  (inner.bb[base::c('ymin', 'ymax')] - shift.bas[2])/scale.bas[2])
+  inner.area <- base::diff(inner.pts.scaled[,1]) * base::diff(inner.pts.scaled[,2])
+
+  J <- base::c(0, 0)
+  box.area <- 1
+  ## 25% area seems like a good rule of thumb from prev code.
+  while(inner.area/box.area < 0.25){
+    if(bases[1]^J[1] <= bases[2]^J[2]){
+      J[1] <- J[1] + 1
+    }else{
+      J[2] <- J[2] + 1
+    }
+    xlim <- base::c(base::floor(inner.pts.scaled[1,1] / (1/bases[1]^J[1]))/(bases[1]^J[1]),
+                    base::ceiling(inner.pts.scaled[2,1] / (1/bases[1]^J[1]))/(bases[1]^J[1]))
+    ylim <- base::c(base::floor(inner.pts.scaled[1,2] / (1/bases[2]^J[2]))/(bases[2]^J[2]),
+                    base::ceiling(inner.pts.scaled[2,2] / (1/bases[2]^J[2]))/(bases[2]^J[2]))
+    box.area <- base::diff(xlim) * base::diff(ylim)
+  }
+  B <- base::prod(bases^J)
+
+  if( base::all(J == 0) ) return(base::list(boxes = 1,
+                                            B = 1,
+                                            J = base::c(0, 0),
+                                            xlim = base::c(0, 1),
+                                            ylim = c(0, 1)))
+  ## Intersect first B BAS points in the boxes
+  ptsx <- cppBASptsIndexed(n = B, seeds = seeds[1], bases = bases[1])$pts
+  indx <- base::which(ptsx[,1] >= xlim[1] & ptsx[,1] < xlim[2])
+  ptsy <- cppBASptsIndexed(n = 1, seeds = seeds[2], bases = bases[2], boxes = indx)$pts
+  boxes <- indx[ptsy[,1] >= ylim[1] & ptsy[,1] < ylim[2]]
+
+  return(list(boxes = boxes,
+              J = J,
+              B = B,
+              xlim = xlim,
+              ylim = ylim))
 }
 

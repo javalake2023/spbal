@@ -108,3 +108,40 @@ cppRSHalton_br <- function(n = 10L, bases = as.numeric( c()), seeds = as.numeric
     .Call(`_spbal_cppRSHalton_br`, n, bases, seeds, verbose)
 }
 
+#' @name cppBASptsIndexed
+#'
+#' @title Generate numbers from a Halton Sequence along a specified set of indices.
+#'
+#' @description For efficiency, this function can generate points along a random start
+#' Halton Sequence for a predefined set of indices away from the seed.
+#' When boxes are provided it will calculate the Halton Sequence only
+#' at those boxes and not along the entire sequence.
+#'
+#' @details When not all points along the Halton sequence are required, this function efficiently generates the points
+#' that are needed along a sequence. Taking all points from the random seed equates to boxes = 1:n. However, taking
+#' advantage of how the Halton Sequence repeats itself by B = prod(base^J), where $J$ is an integer. We can also select
+#' every Bth box to efficiently generate values at specific locations along the sequence. This reduces future computation
+#' when bounding boxes are large in comparison to the polygon being sampled.
+#'
+#' @author Phil Davies, Paul van Dam-Bates, Blair Robertson.
+#'
+#' @param n Number of points required.
+#' @param seeds Random starting point in each dimension.
+#' @param bases Co-prime base for the Halton Sequence.
+#' @param boxes Integer vector of indices to sample along the Halton sequence (default 1:n).
+#' @param verbose A boolean indicating whether informational messages are to be issued.
+#'
+#' @return Matrix with the columns, order of points, x in [0,1) and y in [0,1)
+#'
+#' @examples
+#' # First 10 points in the Halton Sequence for base 2,3
+#' spbal::cppBASpts(n = 10)
+#' # First 10 points in the Halton Sequence for base 2,3 with
+#' # starting point at the 15th and 22nd index.
+#' spbal::cppBASpts(n = 10, seeds = c(14, 21))
+#'
+#' @export
+cppBASptsIndexed <- function(n = 10L, seeds = as.integer( c()), bases = as.numeric( c()), boxes = as.integer( c()), verbose = FALSE) {
+    .Call(`_spbal_cppBASptsIndexed`, n, seeds, bases, boxes, verbose)
+}
+

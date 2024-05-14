@@ -2,12 +2,12 @@
 % Please edit documentation in R/BAS.R
 \name{getBASSampleDriver}
 \alias{getBASSampleDriver}
-\title{Title.}
+\title{Manage BAS sampling.}
 \usage{
 getBASSampleDriver(shapefile, bb, n, seeds, verbose = FALSE)
 }
 \arguments{
-\item{shapefile}{Shape file as a polygon (sp or sf) to select sites for.}
+\item{shapefile}{sf shape file as a polygon to select sites from.}
 
 \item{bb}{Bounding box which defines the area around the study area. A bounding box must be
 supplied.}

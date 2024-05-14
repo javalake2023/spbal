@@ -4,7 +4,7 @@
 \alias{getBASSample}
 \title{Generate the BAS sample.}
 \usage{
-getBASSample(shapefile, bb, n, seeds)
+getBASSample(shapefile, bb, n, seeds, boxes = NULL)
 }
 \arguments{
 \item{shapefile}{Shape file as a polygon (sp or sf) to select sites for.}
@@ -16,6 +16,8 @@ supplied.}
 sample sizes of each group.}
 
 \item{seeds}{A vector of 2 seeds, u1 and u2. seeds must have a value when this function is called.}
+
+\item{boxes}{A vector of integers for which points along the Halton random starting point to sample from.}
 }
 \value{
 A list containing two variables, \code{$sample} containing locations in the BAS sample,
