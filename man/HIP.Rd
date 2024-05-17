@@ -43,10 +43,12 @@ long time. Default is FALSE i.e. no informational messages are displayed.}
 Return a list containing the following five variables:
 
 \itemize{
-\item \code{Population} Fill this in.
-\item \code{HaltonIndex} Fill this in.
-\item \code{sample} Fill this in.
-\item \code{overSample} Fill this in.
+\item \code{Population} Original population point pairs as an sf object.
+\item \code{HaltonIndex} The Halton index for the point. Points will be spread equally across
+all Halton indices.
+\item \code{sample} The sample from the population of size n.
+\item \code{overSample} The overSample contains one point from each Halton box. All contiguous
+sub-samples from oversample are spatially balanced, and the first n points are identical to sample.
 \item \code{minRadius} This result variable contains the sample created using the minRadius
 parameter. If the minRadius parameter is not specified then the minRadius variable will contain NULL.
 }
@@ -62,7 +64,7 @@ one unit from each box in the HIP partition.
 }
 \details{
 Halton iterative partitioning (HIP) extends Basic acceptance
-sampling (BAS) to point resources. It partitions the resource into $B ≥ n$
+sampling (BAS) to point resources. It partitions the resource into $B >= n$
 boxes that have the same nested structure as in BAS, but different sizes.
 These boxes are then uniquely numbered using a random-start Halton sequence
 of length $B$. The HIP sample is obtained by randomly drawing one point from

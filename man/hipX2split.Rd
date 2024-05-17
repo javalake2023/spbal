@@ -2,26 +2,26 @@
 % Please edit documentation in R/HIP.R
 \name{hipX2split}
 \alias{hipX2split}
-\title{A title.}
+\title{Second dimension split.}
 \usage{
 hipX2split(x2pts, HaltonIndex, BoxIndex, xlevel, x2Hpts)
 }
 \arguments{
-\item{x2pts}{A parm.}
+\item{x2pts}{Second dimension component of point pair.}
 
 \item{HaltonIndex}{Halton indices for all points in x2Hpts.}
 
-\item{BoxIndex}{A parm.}
+\item{BoxIndex}{Index of current box to process.}
 
-\item{xlevel}{A parm.}
+\item{xlevel}{The current iteration level.}
 
-\item{x2Hpts}{A parm.}
+\item{x2Hpts}{Second dimension component of Halton point pair.}
 }
 \value{
 A variable called HaltonIndex, the updated Halton indices for all points in x2Hpts.
 }
 \description{
-A description.
+Split point pairs using the second dimension.
 }
 \author{
 Phil Davies, Blair Robertson.

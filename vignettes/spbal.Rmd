@@ -556,7 +556,7 @@ The sample points in *hf.pts.shp* are returned in the form of a simple feature c
 
 ### spbal::HaltonFrame() code example
 
-To generate Halton Frames, **spbal** requires a study region shapefile and the region's bounding box. To illustrate Halton Frames, we discretize the Gates study region into a coarse grid using $B = 2^{J_1} \times 3^{J_2}= 2^3 \times 3^2$ (a $9$ by $8$ grid). The call is below.
+To generate Halton Frames, **spbal** requires a study region shapefile and the region's bounding box. To illustrate Halton Frames, we discretize the Gates study region into a coarse grid using $B = 2^{J_1} \times 3^{J_2} = 2^3 \times 3^2$ (a $9$ by $8$ grid). The call is below.
 
 ```{r HFex1a, message=FALSE, warning=FALSE, results='hide'}
 set.seed(511)
@@ -567,7 +567,7 @@ Frame <- result6$hf.pts.shp
 Grid <- result6$hg.pts.shp
 ```
 
-Spatially ordered $9$ by $8$ Halton grid $(B= 2^{3} * 3^{2} = 72)$ for the Gates county in North Carolina, U.S.A.
+Spatially ordered $9$ by $8$ Halton grid $(B = 2^{3} * 3^{2} = 72)$ for the Gates county in North Carolina, U.S.A.
 
 ```{R HFex1b}
 # Grid - Halton grid over Gates county.
@@ -765,7 +765,7 @@ ggplot() +
 
 ### Halton Frame Stratified sample.
 
-Stratified samples can be selected from a Halton Frame with **spbal**. To implement this design, the input shapefile must have labelled sub-regions or strata, which must be enclosed within a single bounding box. We provide a stratified example design for $50$ sites are selected from three counties in the state of North Carolina, U.S.A --- Gates ($n = 20$), Northampton ($n = 30$), and Hertford ($n = 10$).
+Stratified samples can be selected from a Halton Frame with **spbal**. To implement this design, the input shapefile must have labelled sub-regions or strata, which must be enclosed within a single bounding box. We provide a stratified example design for $50$ sites are selected from three counties in the state of North Carolina, U.S.A - Gates ($n = 20$), Northampton ($n = 30$), and Hertford ($n = 10$).
 
 Load the shape file for the Gates, Northampton and Hertford regions.
 
@@ -836,7 +836,7 @@ SitesPanel_1[1:10, c("x", "spbalSeqID", "panel_id")]
 
 HIP draws spatially balanced samples and over-samples from point resources by partitioning the resource into boxes with the same nested structure as Halton boxes. The **spbal** parameter **iterations** defines the number of boxes used in the HIP partition and should be larger than the sample size but less than the population size. The **iterations parameter** also defines the number of units available in the HIP over-sample, where the over-sample contains one unit from each box in the HIP partition. 
 
-Halton iterative partitioning (HIP) extends Basic acceptance sampling (BAS) to point resources. It partitions the resource into $B ≥ n$ boxes that have the same nested structure as in BAS, but different sizes. These boxes are then uniquely numbered using a random-start Halton sequence of length $B$. The HIP sample is obtained by randomly drawing one point from each of the boxes numbered $1, 2, . . . , n$.
+Halton iterative partitioning (HIP) extends Basic acceptance sampling (BAS) to point resources. It partitions the resource into $B \geq n$ boxes that have the same nested structure as in BAS, but different sizes. These boxes are then uniquely numbered using a random-start Halton sequence of length $B$. The HIP sample is obtained by randomly drawing one point from each of the boxes numbered $1, 2, ..., n$.
 
 HIP draws spatially balanced samples from point resources by partitioning the resource into $B = 2^{J_1} * 3^{J_2}$ nested boxes.
 

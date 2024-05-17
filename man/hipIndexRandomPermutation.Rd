@@ -2,20 +2,19 @@
 % Please edit documentation in R/HIP.R
 \name{hipIndexRandomPermutation}
 \alias{hipIndexRandomPermutation}
-\title{A title.}
+\title{Permute Halton indices.}
 \usage{
 hipIndexRandomPermutation(its)
 }
 \arguments{
-\item{its}{A parm.}
+\item{its}{The number of partitioning iterations.}
 }
 \value{
 A list containing the following variables:
-permHaltonIndex - some output.
 
 \itemize{
-\item \code{permHaltonIndex} Fill this in.
-\item \code{B} Fill this in.
+\item \code{permHaltonIndex} The permuted halton indices for all points.
+\item \code{B} The number of Halton boxes.
 }
 }
 \description{

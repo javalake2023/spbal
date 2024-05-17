@@ -41,10 +41,10 @@ when bounding boxes are large in comparison to the polygon being sampled.
 }
 \examples{
 # First 10 points in the Halton Sequence for base 2,3
-spbal::cppBASpts(n = 10)
+spbal::cppBASptsIndexed(n = 10)
 # First 10 points in the Halton Sequence for base 2,3 with
 # starting point at the 15th and 22nd index.
-spbal::cppBASpts(n = 10, seeds = c(14, 21))
+spbal::cppBASptsIndexed(n = 10, seeds = c(14, 21))
 
 }
 \author{

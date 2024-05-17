@@ -2,25 +2,27 @@
 % Please edit documentation in R/HIP.R
 \name{hipPartition}
 \alias{hipPartition}
-\title{A title.}
+\title{Partition the population.}
 \usage{
 hipPartition(pts, its)
 }
 \arguments{
-\item{pts}{A parm.}
+\item{pts}{The population of points.}
 
-\item{its}{A parm.}
+\item{its}{The number of partitioning iterations.}
 }
 \value{
 A list containing the following variables:
 
 \itemize{
-\item \code{ptsIndex} Fill this in.
+\item \code{ptsIndex} The population index.
 \item \code{HaltonIndex} Updated Halton indices for all points in pts.
 }
 }
 \description{
-A description.
+Partition the resource into boxes with the same nested structure as Halton boxes.
+The \strong{spbal} parameter \strong{iterations} defines the number of boxes used in the HIP partition and
+should be larger than the sample size but less than the population size.
 }
 \author{
 Phil Davies, Blair Robertson.

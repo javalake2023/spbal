@@ -28,7 +28,7 @@ HaltonFrame(
 then spbal will generate a bounding box for the shapefile.}
 
 \item{shapefile}{A sf object. If the shapefile parameter is NULL then function
-spbal::HaltonFrameBase is called directly.}
+HaltonFrameBase is called directly.}
 
 \item{panels}{A list of integers that define the size of each panel in a
 non-overlapping panels design. The length of the list determines the number of

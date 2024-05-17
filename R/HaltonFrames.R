@@ -19,7 +19,7 @@
 #' @param J The number of grid cells. A list of 2 values. The default value is c(3, 2).
 #' @param bases Co-prime base for the Halton Sequence. The default value is c(2, 3).
 #' @param shapefile A sf object. If the shapefile parameter is NULL then function
-#' spbal::HaltonFrameBase is called directly.
+#' HaltonFrameBase is called directly.
 #' @param boundingbox Bounding box around the study area. If a bounding box is not supplied
 #' then spbal will generate a bounding box for the shapefile.
 #' @param panels A list of integers that define the size of each panel in a

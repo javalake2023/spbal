@@ -39,7 +39,7 @@ NULL
 #'
 #' @title Remove duplicate values from a NumericVector.
 #'
-#' @description Need to fill in.
+#' @description Sort the input numeric vector and removes any duplicate values.
 #'
 #' @author Phil Davies.
 #'
@@ -135,10 +135,10 @@ cppRSHalton_br <- function(n = 10L, bases = as.numeric( c()), seeds = as.numeric
 #'
 #' @examples
 #' # First 10 points in the Halton Sequence for base 2,3
-#' spbal::cppBASpts(n = 10)
+#' spbal::cppBASptsIndexed(n = 10)
 #' # First 10 points in the Halton Sequence for base 2,3 with
 #' # starting point at the 15th and 22nd index.
-#' spbal::cppBASpts(n = 10, seeds = c(14, 21))
+#' spbal::cppBASptsIndexed(n = 10, seeds = c(14, 21))
 #'
 #' @export
 cppBASptsIndexed <- function(n = 10L, seeds = as.integer( c()), bases = as.numeric( c()), boxes = as.integer( c()), verbose = FALSE) {

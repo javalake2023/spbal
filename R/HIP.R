@@ -2,17 +2,17 @@
 
 #' @name hipX1split
 #'
-#' @title A title.
+#' @title First dimension split.
 #'
-#' @description A description.
+#' @description Split point pairs using the first dimension.
 #'
 #' @author Phil Davies, Blair Robertson.
 #'
-#' @param x1pts A parm.
+#' @param x1pts First dimension component of point pair.
 #' @param HaltonIndex Halton indices for all points in x1Hpts.
-#' @param BoxIndex A parm.
-#' @param xlevel A parm.
-#' @param x1Hpts A parm.
+#' @param BoxIndex Index of current box to process.
+#' @param xlevel The current iteration level.
+#' @param x1Hpts First dimension component of Halton point pair.
 #'
 #' @return A variable called HaltonIndex, the updated Halton indices for all points in x1Hpts.
 #'
@@ -54,17 +54,17 @@ hipX1split <- function(x1pts, HaltonIndex, BoxIndex, xlevel, x1Hpts) {
 
 #' @name hipX2split
 #'
-#' @title A title.
+#' @title Second dimension split.
 #'
-#' @description A description.
+#' @description Split point pairs using the second dimension.
 #'
 #' @author Phil Davies, Blair Robertson.
 #'
-#' @param x2pts A parm.
+#' @param x2pts Second dimension component of point pair.
 #' @param HaltonIndex Halton indices for all points in x2Hpts.
-#' @param BoxIndex A parm.
-#' @param xlevel A parm.
-#' @param x2Hpts A parm.
+#' @param BoxIndex Index of current box to process.
+#' @param xlevel The current iteration level.
+#' @param x2Hpts Second dimension component of Halton point pair.
 #'
 #' @return A variable called HaltonIndex, the updated Halton indices for all points in x2Hpts.
 #'
@@ -123,19 +123,21 @@ hipX2split <- function(x2pts, HaltonIndex, BoxIndex, xlevel, x2Hpts) {
 
 #' @name hipPartition
 #'
-#' @title A title.
+#' @title Partition the population.
 #'
-#' @description A description.
+#' @description Partition the resource into boxes with the same nested structure as Halton boxes.
+#' The **spbal** parameter **iterations** defines the number of boxes used in the HIP partition and
+#' should be larger than the sample size but less than the population size.
 #'
 #' @author Phil Davies, Blair Robertson.
 #'
-#' @param pts A parm.
-#' @param its A parm.
+#' @param pts The population of points.
+#' @param its The number of partitioning iterations.
 #'
 #' @return A list containing the following variables:
 #'
 #' \itemize{
-#' \item \code{ptsIndex} Fill this in.
+#' \item \code{ptsIndex} The population index.
 #' \item \code{HaltonIndex} Updated Halton indices for all points in pts.
 #' }
 #'
@@ -187,20 +189,19 @@ hipPartition <- function(pts, its) {
 
 #' @name hipIndexRandomPermutation
 #'
-#' @title A title.
+#' @title Permute Halton indices.
 #'
 #' @description A description.
 #'
 #' @author Phil Davies, Blair Robertson.
 #'
-#' @param its A parm.
+#' @param its The number of partitioning iterations.
 #'
 #' @return A list containing the following variables:
-#'         permHaltonIndex - some output.
 #'
 #' \itemize{
-#' \item \code{permHaltonIndex} Fill this in.
-#' \item \code{B} Fill this in.
+#' \item \code{permHaltonIndex} The permuted halton indices for all points.
+#' \item \code{B} The number of Halton boxes.
 #' }
 #'
 #' @keywords internal
@@ -296,29 +297,6 @@ hipIndexRandomPermutation <- function(its) {
 }
 
 
-# delete at some stage - use cpp version instead.
-#HaltonPts <- function(n) {
-#  # Initialize
-#  bases <- c(2, 3)
-#  pts <- base::matrix(0, nrow = n, ncol = 2)
-
-#  for (ii in (1:n)) {
-#    for (i in (1:2)) {
-#      k <- (ii - 1)
-#      j <- 1
-#      xk <- (k %% bases[i]) * (1 / bases[i])
-
-#      while (base::floor(k / (bases[i] ^ (j))) > 0) {
-#        xk <- xk + (base::floor(k / (bases[i] ^ (j))) %% bases[i]) * (1 / (bases[i] ^ (j + 1)))
-#        j <- (j + 1)
-#      }
-#      pts[ii, i] <- xk
-#    }
-#  }
-#  return(pts)
-#}
-
-
 #' @name is_sf_points
 #'
 #' @title Check if an object is an sf points object.
@@ -356,7 +334,7 @@ is_sf_points <- function(x) {
 #' @author Phil Davies, Blair Robertson.
 #'
 #' @details Halton iterative partitioning (HIP) extends Basic acceptance
-#' sampling (BAS) to point resources. It partitions the resource into $B ≥ n$
+#' sampling (BAS) to point resources. It partitions the resource into $B >= n$
 #' boxes that have the same nested structure as in BAS, but different sizes.
 #' These boxes are then uniquely numbered using a random-start Halton sequence
 #' of length $B$. The HIP sample is obtained by randomly drawing one point from
@@ -383,10 +361,12 @@ is_sf_points <- function(x) {
 #' @return Return a list containing the following five variables:
 #'
 #' \itemize{
-#' \item \code{Population} Fill this in.
-#' \item \code{HaltonIndex} Fill this in.
-#' \item \code{sample} Fill this in.
-#' \item \code{overSample} Fill this in.
+#' \item \code{Population} Original population point pairs as an sf object.
+#' \item \code{HaltonIndex} The Halton index for the point. Points will be spread equally across
+#' all Halton indices.
+#' \item \code{sample} The sample from the population of size n.
+#' \item \code{overSample} The overSample contains one point from each Halton box. All contiguous
+#' sub-samples from oversample are spatially balanced, and the first n points are identical to sample.
 #' \item \code{minRadius} This result variable contains the sample created using the minRadius
 #' parameter. If the minRadius parameter is not specified then the minRadius variable will contain NULL.
 #' }
@@ -528,8 +508,6 @@ HIP <- function(population = NULL,
   PopulationSample$HaltonIndex <- hI
   PopulationSample$spbalSeqID <- base::seq(1, B) # was n
 
-  # sort PopulationSample on HaltonIndex
-  # PopulationSample <- PopulationSample[base::order(PopulationSample$HaltonIndex),]
   # sort PopulationSample on HaltonIndex
   PopulationSample <- PopulationSample[base::order(PopulationSample$HaltonIndex),]
 

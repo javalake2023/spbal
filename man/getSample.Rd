@@ -41,11 +41,11 @@ bb <- spbal::BoundingBox(shapefile = shp_gates)
 
 set.seed(511)
 result7 <- spbal::HaltonFrame(shapefile = shp_gates,
-                              J = c(8, 5),
+                              J = c(6, 4),
                               boundingbox = bb)
 Frame <- result7$hf.pts.shp
 
-# Get the first 25 sites from a B = (2^8) * (3^5) Halton Frame (62,208 grid
+# Get the first 25 sites from a B = (2^6) * (3^4) Halton Frame (62,208 grid
 # points covering Gates).
 n_samples <- 25
 FrameSample <-getSample(shapefile = Frame,

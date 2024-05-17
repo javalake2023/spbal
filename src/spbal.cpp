@@ -62,7 +62,7 @@ T mod(T a, int n){
 //'
 //' @title Remove duplicate values from a NumericVector.
 //'
-//' @description Need to fill in.
+//' @description Sort the input numeric vector and removes any duplicate values.
 //'
 //' @author Phil Davies.
 //'
@@ -279,6 +279,7 @@ Rcpp::List cppRSHalton_br(int n = 10,
                            _["seeds"]  = seeds);
 }
 
+
 //' @name cppBASptsIndexed
 //'
 //' @title Generate numbers from a Halton Sequence along a specified set of indices.
@@ -306,10 +307,10 @@ Rcpp::List cppRSHalton_br(int n = 10,
 //'
 //' @examples
 //' # First 10 points in the Halton Sequence for base 2,3
-//' spbal::cppBASpts(n = 10)
+//' spbal::cppBASptsIndexed(n = 10)
 //' # First 10 points in the Halton Sequence for base 2,3 with
 //' # starting point at the 15th and 22nd index.
-//' spbal::cppBASpts(n = 10, seeds = c(14, 21))
+//' spbal::cppBASptsIndexed(n = 10, seeds = c(14, 21))
 //'
 //' @export
 // [[Rcpp::export(rng = false)]]

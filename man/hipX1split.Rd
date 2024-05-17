@@ -2,26 +2,26 @@
 % Please edit documentation in R/HIP.R
 \name{hipX1split}
 \alias{hipX1split}
-\title{A title.}
+\title{First dimension split.}
 \usage{
 hipX1split(x1pts, HaltonIndex, BoxIndex, xlevel, x1Hpts)
 }
 \arguments{
-\item{x1pts}{A parm.}
+\item{x1pts}{First dimension component of point pair.}
 
 \item{HaltonIndex}{Halton indices for all points in x1Hpts.}
 
-\item{BoxIndex}{A parm.}
+\item{BoxIndex}{Index of current box to process.}
 
-\item{xlevel}{A parm.}
+\item{xlevel}{The current iteration level.}
 
-\item{x1Hpts}{A parm.}
+\item{x1Hpts}{First dimension component of Halton point pair.}
 }
 \value{
 A variable called HaltonIndex, the updated Halton indices for all points in x1Hpts.
 }
 \description{
-A description.
+Split point pairs using the first dimension.
 }
 \author{
 Phil Davies, Blair Robertson.

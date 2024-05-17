@@ -17,7 +17,7 @@ S The set of points that are more than minRadius from each other.
 \description{
 The input parameter minRadius >= 0 is the minimum distance between any two
 points in the sample. My idea is to apply this condition to the points in the over-sample,
-result$overSample. Let's call these points x1, x2, ..., xB. Create a new set S = {x1}.
+result$overSample. Let's call these points x1, x2, ..., xB. Create a new set S = (x1).
 Starting from x1, we check if dist(S,x2) > minRadius. If it is, add x2 to S. For x3, we check
 if dist(S,x3) > minRadius, where dist is the smallest distance from a point in S to x3
 (single linkage distance). If dist(S,x3) > minRadius, add x3 to S. Continue until you reach xB.

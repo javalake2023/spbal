@@ -10,7 +10,7 @@
 A NumericVector that is sorted with duplicates removed.
 }
 \description{
-Need to fill in.
+Sort the input numeric vector and removes any duplicate values.
 }
 \author{
 Phil Davies.
